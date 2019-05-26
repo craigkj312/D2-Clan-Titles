@@ -37,15 +37,22 @@ class Home extends React.Component {
         const home = (
             isLoading ? <div className='loading'></div> :
             <div className='home'>
-                <input className='search-field' 
-                    placeholder='Clan Name' 
-                    onChange={e => {this.setState({clanName: e.target.value})}}
-                    onKeyPress={e => {
-                        if (e.key === 'Enter') {
-                            this.submitName()
-                        }
-                    }}
-                />
+                <div className='home-title-container'>
+                    <div className='home-title-top'> Clan </div>
+                    <div className='home-title-bottom'> Titles </div>
+                </div>
+                <div className='search-container'>
+                    <input className='search-field' 
+                        placeholder='Enter Clan Name' 
+                        onChange={e => {this.setState({clanName: e.target.value})}}
+                        onKeyPress={e => {
+                            if (e.key === 'Enter') {
+                                this.submitName()
+                            }
+                        }}
+                    />
+                    <div className='press-enter'> Press Enter </div>
+                </div>
             </div>
         );
 
