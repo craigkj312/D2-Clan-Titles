@@ -14,7 +14,7 @@ class App extends React.Component {
         <HashRouter>
             {/*<Header />*/}
             <Route path="/" exact component={Home} />
-            <Route path="/c/:type/:id" component={ClanDetails} />
+            <Route path="/c/:groupId" component={ClanDetails} />
             {/*<Footer />*/}
         </HashRouter>
       </div>
