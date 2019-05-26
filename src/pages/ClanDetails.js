@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { getProfile, getActivities } from '../utils/api';
 
-import '../style/UserDetails.css';
+import '../style/ClanDetails.css';
 
-class UserDetails extends React.Component {
+class ClanDetails extends React.Component {
 
     constructor(props) {
         super(props)
@@ -43,15 +43,15 @@ class UserDetails extends React.Component {
     }
 }
 
-UserDetails.propTypes = {
+ClanDetails.propTypes = {
     children: PropTypes.node,
     router: PropTypes.object,
     location: PropTypes.object,
     history: PropTypes.any
 }
 
-UserDetails.contextTypes = {
+ClanDetails.contextTypes = {
     router: PropTypes.object
 }
 
-export default withRouter(UserDetails);
+export default withRouter(ClanDetails);

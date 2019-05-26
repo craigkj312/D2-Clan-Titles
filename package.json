@@ -1,8 +1,8 @@
 {
-  "name": "crucible-workshop",
+  "name": "d2-clan-titles",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://craigkj312.github.io/Crucible-Workshop/",
+  "homepage": "https://craigkj312.github.io/D2-Clan-Titles/",
   "dependencies": {
     "downshift": "^3.2.7",
     "gh-pages": "^2.0.1",

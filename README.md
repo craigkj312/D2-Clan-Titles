@@ -1,4 +1,4 @@
-# Crucible Workshop
+# Destiny 2 Clan Titles
 
 - node v10.15.3
 - npm v6.4.1
@@ -33,7 +33,7 @@ Your app is ready to be deployed!
 ### `npm run deploy`
 
 Builds the app for production to the `build` folder then deploys the build to GitHub Pages.<br>
-The most recent deployment can be seen at [Here](https://craigkj312.github.io/Crucible-Workshop/).
+The most recent deployment can be seen at [Here](https://craigkj312.github.io/D2-Clan-Titles/).
 
 ### `npm run eject`
 

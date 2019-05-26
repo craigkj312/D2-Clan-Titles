@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { searchUsers } from '../utils/api';
+import { searchClans } from '../utils/api';
 
 import '../style/Home.css';
 
@@ -12,53 +12,44 @@ class Home extends React.Component {
 
         this.state = {
             isLoading: false,
-            users: []
+            clanName: ""
         }
 
-        this.fieldChanged = this.fieldChanged.bind(this);
-        this.selectUser = this.selectUser.bind(this);
+        this.submitName = this.submitName.bind(this)
     }
 
     componentDidMount() {
 
     }
 
-    fieldChanged(newVal) {
-        if (newVal.length > 2) {
-            searchUsers(newVal)
-            .then(response => {
-                // console.log(response)
-                if (response && response.length > 0) {
-                    this.setState({users: response})
-                }
-            })
-        }
-    }
+    submitName() {
 
-    selectUser(user) {
-        this.props.history.push(`/u/${user.membershipType}/${user.membershipId}`)
+        const { clanName } = this.state
+
+        searchClans(clanName)
+        .then(response => {
+            if (response && response.detail && response.detail.groupId) {
+                this.props.history.push(`/c/${response.detail.groupId}`)
+            }
+        })
     }
 
     render() {
 
-        const { isLoading, users } = this.state;
+        const { isLoading, clans } = this.state;
 
         const home = (
             isLoading ? <div className='loading'></div> :
             <div className='home'>
                 <input className='search-field' 
-                    placeholder='Battle.net | PSN | Xbox Live' 
-                    onChange={e => this.fieldChanged(e.target.value)} 
+                    placeholder='Clan Name' 
+                    onChange={e => {this.setState({clanName: e.target.value})}}
+                    onKeyPress={e => {
+                        if (e.key === 'Enter') {
+                            this.submitName()
+                        }
+                    }}
                 />
-                <ul className='user-list'>
-                {users.length > 0 ? 
-                    users.map((user, index) => (
-                        <li className='user-list-row' key={index} onClick={() => this.selectUser(user)}>
-                            {user.displayName}
-                        </li>
-                    ))
-                : null}
-                </ul>
             </div>
         );
 
