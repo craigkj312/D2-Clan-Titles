@@ -1,0 +1,34 @@
+.home {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-field {
+    width: 560px;
+    height: 50px;
+    border: solid 1px var(--white);
+    color: var(--white);
+    background-color: var(--onyx);
+    text-align: center;
+    font-size: 18px;
+}
+
+.user-list {
+    width: 560px;
+    list-style-type: none;
+    padding: 0px;
+    max-height: 500px;
+}
+
+.user-list-row {
+    height: 40px;
+    line-height: 40px;
+    padding-left: 20px;
+    background-color: var(--onyx);
+    color: var(--white);
+    border: solid 1px var(--white);
+    cursor: pointer;
+}

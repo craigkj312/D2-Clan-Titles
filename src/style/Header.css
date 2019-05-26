@@ -1,0 +1,24 @@
+.header {
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    padding: 0px 20px 0px 20px;
+    background-color: #222222cc;
+    border-bottom: solid 1px var(--white);
+}
+
+.header-title {
+    cursor: pointer;
+}
+
+.header-title-crucible {
+    color: var(--red);
+}
+
+.header-title-workshop {
+    color: var(--white);
+}
