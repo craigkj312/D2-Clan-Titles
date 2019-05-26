@@ -18,10 +18,6 @@ class Home extends React.Component {
         this.submitName = this.submitName.bind(this)
     }
 
-    componentDidMount() {
-
-    }
-
     submitName() {
 
         const { clanName } = this.state
@@ -36,7 +32,7 @@ class Home extends React.Component {
 
     render() {
 
-        const { isLoading, clans } = this.state;
+        const { isLoading } = this.state;
 
         const home = (
             isLoading ? <div className='loading'></div> :
@@ -69,5 +65,3 @@ Home.contextTypes = {
 }
 
 export default withRouter(Home);
-
-//.filter(user => !inputValue || user.includes(inputValue))
