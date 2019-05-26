@@ -1,5 +1,5 @@
 body {
-  background: radial-gradient(var(--onyx) 0%, var(--black) 65%);;
+  background-color: var(--black);
 }
 
 a {
@@ -12,10 +12,11 @@ a {
 }
 
 :root {
-  --black: #222222;
+  --black: #060606;
   --onyx: #353B3C;
   --white: #F7F0F5;
-  --red: #E86252;
+  --bungieBG: #232936;
+  --bungieWhite: #f5f5f5;
 }
 
 .loading,

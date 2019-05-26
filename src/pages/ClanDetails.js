@@ -5,13 +5,20 @@ import { getClanMembers } from '../utils/api';
 
 import '../style/ClanDetails.css';
 
+import ClanDetailsHeader from '../components/ClanDetails/ClanDetailsHeader';
+import RaiderTable from '../components/ClanDetails/RaiderTable';
+import PvPTable from '../components/ClanDetails/PvPTable';
+import GambitTable from '../components/ClanDetails/GambitTable';
+
+
 class ClanDetails extends React.Component {
 
     constructor(props) {
         super(props)
 
         this.state = {
-            isLoading: true
+            isLoading: true,
+            memberList: []
         }
     }
 
@@ -21,17 +28,26 @@ class ClanDetails extends React.Component {
 
         getClanMembers(groupId)
         .then(response => {
-            // this.setState({isLoading: false})
+            this.setState({isLoading: false, memberList: response.results})
         })
     }
 
     render() {
 
-        const { isLoading } = this.state
+        const { isLoading, memberList } = this.state
+        const { groupId } = this.props.match.params;
 
         const home = (
-            isLoading ? <div className='loading'></div> :
-            <div className='user-details'>  
+            <div className='clan-details'>
+            {isLoading ? <div className='loading'></div> :
+            <div>
+                <ClanDetailsHeader groupId={groupId} />
+                <div className='clan-details-content'>
+                    <RaiderTable memberList={memberList} />
+                    <PvPTable memberList={memberList} />
+                    <GambitTable memberList={memberList} />
+                </div>
+            </div>}
             </div>
         );
 

@@ -1,3 +1,27 @@
 .clan-details {
     height: 100vh;
+    background-image: linear-gradient(#060606cc, #060606ff), url(../images/backgrounds/Traveler-min.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.clan-details-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 36px 0px 0px 36px;
+}
+
+.title-table {
+    width: 480px;
+    height: 600px;
+    margin: 0px 16px 16px 0px;
+    background-color: #060606cc;
+}
+
+.table-header {
+    padding: 18px;
+    color: var(--white);
+    font-size: 18px;
+    border-bottom: 1px solid #F7F0F566;
 }

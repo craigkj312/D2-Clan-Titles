@@ -1,0 +1,16 @@
+.clan-details-header {
+    padding: 18px 0px 0px 36px;
+    display: flex;
+    flex-direction: row;
+    color: var(--white);
+}
+
+.clan-name {
+    font-size: 3rem;
+}
+
+.clan-tag {
+    margin-left: 9px;
+    font-size: 2rem;
+    font-weight: 100;
+}
