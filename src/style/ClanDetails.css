@@ -20,8 +20,24 @@
 }
 
 .table-header {
-    padding: 18px;
+    height: 36px;
+    padding: 10px 0px 0px 18px;
     color: var(--white);
     font-size: 18px;
+    border-bottom: 1px solid #F7F0F566;
+}
+
+.table-content {
+    height: 560px;
+    overflow-y: scroll;
+}
+
+.member-row{
+    padding: 12px;
+    color: var(--white);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #F7F0F566;
 }
