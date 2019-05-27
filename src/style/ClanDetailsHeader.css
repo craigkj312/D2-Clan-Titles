@@ -1,8 +1,13 @@
 .clan-details-header {
-    padding: 18px 0px 0px 36px;
+    position: relative;
+    width: calc(100% - 72px);
+    padding: 18px 36px 0px 36px;
+    color: var(--white);
+}
+
+.clan-name-container {
     display: flex;
     flex-direction: row;
-    color: var(--white);
 }
 
 .clan-name {
@@ -13,4 +18,19 @@
     margin-left: 9px;
     font-size: 2rem;
     font-weight: 100;
+}
+
+.month-dropdown {
+    width: 120px;
+    position: absolute;
+    right: 36px;
+    background-color: var(--black);
+}
+.month-dropdown>.Dropdown-control {
+    padding: 12px;
+    border: 1px solid var(--white);
+}
+.month-dropdown>.Dropdown-menu {
+    padding: 12px;
+    border: 1px solid var(--white);
 }

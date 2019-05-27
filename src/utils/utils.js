@@ -4,6 +4,20 @@ export let checkDates = (date1, date2) => {
     return date1.getMonth() === date2.getMonth() && date1.getYear() === date2.getYear()
 }
 
+export let formatDate = (date) => {
+    let monthNames = [
+      "January", "February", "March",
+      "April", "May", "June", "July",
+      "August", "September", "October",
+      "November", "December"
+    ]
+  
+    let monthIndex = date.getMonth();
+    let year = date.getFullYear();
+  
+    return monthNames[monthIndex] + ' ' + year;
+}
+
 export let getRaidCount = (name, membershipId) => new Promise((resolve, reject) => {
 
     let raidCount = 0

@@ -19,8 +19,11 @@ class ClanDetails extends React.Component {
 
         this.state = {
             isLoading: true,
+            activeDate: new Date(),
             memberList: []
         }
+
+        this.changeDate = this.changeDate.bind(this)
     }
 
     componentDidMount() {
@@ -33,21 +36,26 @@ class ClanDetails extends React.Component {
         })
     }
 
+    changeDate(newDate) {
+        console.log('setting date: ', newDate)
+        this.setState({activeDate: newDate})
+    }
+
     render() {
 
-        const { isLoading, memberList } = this.state
+        const { isLoading, activeDate, memberList } = this.state
         const { groupId } = this.props.match.params;
 
         const home = (
             <div className='clan-details'>
             {isLoading ? <div className='loading'></div> :
             <div className='clan-details-scroll'>
-                <ClanDetailsHeader groupId={groupId} />
+                <ClanDetailsHeader groupId={groupId} activeDate={activeDate} changeDate={this.changeDate} />
                 <div className='clan-details-content'>
-                    <RaiderTable memberList={memberList} />
-                    <PvPTable memberList={memberList} />
-                    <GambitTable memberList={memberList} />
-                    <StrikeTable memberList={memberList} />
+                    <RaiderTable memberList={memberList} atDate={activeDate} />
+                    <PvPTable memberList={memberList} atDate={activeDate} />
+                    <GambitTable memberList={memberList} atDate={activeDate} />
+                    <StrikeTable memberList={memberList} atDate={activeDate} />
                 </div>
             </div>}
             </div>
