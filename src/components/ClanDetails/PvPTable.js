@@ -1,5 +1,5 @@
 import React from 'react';
-import { getClan } from '../../utils/api';
+import { getCrucibleWins } from '../../utils/utils';
 
 import '../../style/ClanDetails.css';
 
@@ -11,28 +11,35 @@ export default class PvPTable extends React.Component {
         super(props)
 
         this.state = {
-            isLoading: false
+            isLoading: true,
+            winCounts: {}
         }
     }
 
     componentDidMount() {
-        // getClan(this.props.groupId)
-        // .then(response => {
-        //     this.setState({clanDetail: response.detail})
-        // })
+        let winCounts = {}
+        this.props.memberList.forEach((member) => {
+            getCrucibleWins(member.destinyUserInfo.membershipId)
+            .then(response => {
+                winCounts[member.destinyUserInfo.displayName] = response
+                if (Object.keys(winCounts).length === this.props.memberList.length) {
+                    this.setState({isLoading: false, winCounts: winCounts})
+                }
+            })
+        })
     }
 
     render() {
-        const { isLoading } = this.state
-        const { memberList } = this.props
+        const { isLoading, winCounts } = this.state
+        let sortedMembers = Object.keys(winCounts).sort(function(a,b){return winCounts[b]-winCounts[a]})
 
         const table = (
             <div className='title-table'>
-                <div className='table-header'> Top Frag </div>
+                <div className='table-header'> Fragger </div>
                 {isLoading ? <div className='loading'></div> :
                 <div className='table-content'>
-                    {memberList.map((member, i) => {
-                        return <MemberRow key={i} rank={i+1} name={member.destinyUserInfo.displayName} count={0} />
+                    {sortedMembers.map((member, i) => {
+                        return <MemberRow key={i} rank={i+1} name={member} count={winCounts[member]} />
                     })}
                 </div>}
             </div>

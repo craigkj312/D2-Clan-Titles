@@ -1,5 +1,5 @@
 import React from 'react';
-import { getClan } from '../../utils/api';
+import { getRaidCount } from '../../utils/utils';
 
 import '../../style/ClanDetails.css';
 
@@ -11,28 +11,36 @@ export default class RaiderTable extends React.Component {
         super(props)
 
         this.state = {
-            isLoading: false
+            isLoading: true,
+            raidCounts: {}
         }
     }
 
     componentDidMount() {
-        // getClan(this.props.groupId)
-        // .then(response => {
-        //     this.setState({clanDetail: response.detail})
-        // })
+        let raidCounts = {}
+        this.props.memberList.forEach((member) => {
+            getRaidCount(member.destinyUserInfo.membershipId)
+            .then(response => {
+                // console.log(member.destinyUserInfo.displayName, response)
+                raidCounts[member.destinyUserInfo.displayName] = response
+                if (Object.keys(raidCounts).length === this.props.memberList.length) {
+                    this.setState({isLoading: false, raidCounts: raidCounts})
+                }
+            })
+        })
     }
 
     render() {
-        const { isLoading } = this.state
-        const { memberList } = this.props
+        const { isLoading, raidCounts } = this.state
+        let sortedMembers = Object.keys(raidCounts).sort(function(a,b){return raidCounts[b]-raidCounts[a]})
 
         const table = (
             <div className='title-table'>
                 <div className='table-header'> Raider </div>
                 {isLoading ? <div className='loading'></div> :
                 <div className='table-content'>
-                    {memberList.map((member, i) => {
-                        return <MemberRow key={i} rank={i+1} name={member.destinyUserInfo.displayName} count={0} />
+                    {sortedMembers.map((member, i) => {
+                        return <MemberRow key={i} rank={i+1} name={member} count={raidCounts[member]} />
                     })}
                 </div>}
             </div>

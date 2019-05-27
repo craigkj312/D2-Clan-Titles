@@ -1,5 +1,4 @@
 import React from 'react';
-import { getClan } from '../../utils/api';
 
 import '../../style/ClanDetails.css';
 
