@@ -36,7 +36,10 @@ export default class RaiderTable extends React.Component {
 
         const table = (
             <div className='title-table'>
-                <div className='table-header'> Raider </div>
+                <div className='table-header'> 
+                    <div>Raider</div>
+                    <div className='table-sub-header'>Raids Completed.</div>
+                </div>
                 {isLoading ? <div className='loading'></div> :
                 <div className='table-content'>
                     {sortedMembers.map((member, i) => {

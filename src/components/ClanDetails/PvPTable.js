@@ -35,7 +35,10 @@ export default class PvPTable extends React.Component {
 
         const table = (
             <div className='title-table'>
-                <div className='table-header'> Fragger </div>
+                <div className='table-header'> 
+                    <div>Gladiator</div>
+                    <div className='table-sub-header'>Wins in the Crucible.</div>
+                </div>
                 {isLoading ? <div className='loading'></div> :
                 <div className='table-content'>
                     {sortedMembers.map((member, i) => {
