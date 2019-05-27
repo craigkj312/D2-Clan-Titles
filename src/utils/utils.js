@@ -11,26 +11,28 @@ export let getRaidCount = (membershipId) => new Promise((resolve, reject) => {
 
     getProfile(4, membershipId, [200])
     .then(profileResponse => {
-        let raidMap = Object.keys(profileResponse.characters.data).map((characterId, i) => {
-            const character = profileResponse.characters.data[characterId]
-            return getActivities(character, 250, 4, 0, currentDate)
-        })
-        let results = Promise.all(raidMap)
-        results.then(activitiesResponse => {
-            let allActivites = activitiesResponse.flat(1)
-            if (allActivites.length > 0) {
-                allActivites.forEach((activity) => {
-                    if (activity) {
-                        const activityDate = new Date(activity.period)
-                        if (checkDates(activityDate, currentDate) &&
-                            activity.values.completed.basic.value === 1) {
-                            raidCount = raidCount + 1
+        if (profileResponse) { 
+            let raidMap = Object.keys(profileResponse.characters.data).map((characterId, i) => {
+                const character = profileResponse.characters.data[characterId]
+                return getActivities(character, 250, 4, 0, currentDate)
+            })
+            let results = Promise.all(raidMap)
+            results.then(activitiesResponse => {
+                let allActivites = activitiesResponse.flat(1)
+                if (allActivites.length > 0) {
+                    allActivites.forEach((activity) => {
+                        if (activity) {
+                            const activityDate = new Date(activity.period)
+                            if (checkDates(activityDate, currentDate) &&
+                                activity.values.completed.basic.value === 1) {
+                                raidCount = raidCount + 1
+                            }
                         }
-                    }
-                })
-            }
-            resolve(raidCount)
-        })
+                    })
+                }
+                resolve(raidCount)
+            })  
+        } else { resolve(0) }
     })
 })
 
@@ -41,28 +43,30 @@ export let getCrucibleWins = (membershipId) => new Promise((resolve, reject) => 
 
     getProfile(4, membershipId, [200])
     .then(profileResponse => {
-        let pvpMap = Object.keys(profileResponse.characters.data).map((characterId, i) => {
-            const character = profileResponse.characters.data[characterId]
-            return getActivities(character, 250, 5, 0, currentDate)
-        })
-        let results = Promise.all(pvpMap)
-        results.then(activitiesResponse => {
-            let allActivites = activitiesResponse.flat(1)
-            if (allActivites.length > 0) {
-                allActivites.forEach((activity) => {
-                    if (activity) {
-                        const activityDate = new Date(activity.period)
-                        if (checkDates(activityDate, currentDate) &&
-                            activity.values.completed.basic.value === 1 &&
-                            activity.values.standing.basic.value === 0 &&
-                            activity.values.efficiency.basic.value !== 0) {
-                            crucibleWins = crucibleWins + 1
+        if (profileResponse) { 
+            let pvpMap = Object.keys(profileResponse.characters.data).map((characterId, i) => {
+                const character = profileResponse.characters.data[characterId]
+                return getActivities(character, 250, 5, 0, currentDate)
+            })
+            let results = Promise.all(pvpMap)
+            results.then(activitiesResponse => {
+                let allActivites = activitiesResponse.flat(1)
+                if (allActivites.length > 0) {
+                    allActivites.forEach((activity) => {
+                        if (activity) {
+                            const activityDate = new Date(activity.period)
+                            if (checkDates(activityDate, currentDate) &&
+                                activity.values.completed.basic.value === 1 &&
+                                activity.values.standing.basic.value === 0 &&
+                                activity.values.efficiency.basic.value !== 0) {
+                                crucibleWins = crucibleWins + 1
+                            }
                         }
-                    }
-                })
-            }
-            resolve(crucibleWins)
-        })
+                    })
+                }
+                resolve(crucibleWins)
+            })
+        } else { resolve(0) }
     })
 })
 
@@ -73,27 +77,29 @@ export let getGambitWins = (membershipId) => new Promise((resolve, reject) => {
 
     getProfile(4, membershipId, [200])
     .then(profileResponse => {
-        let gambitMap = Object.keys(profileResponse.characters.data).map((characterId, i) => {
-            const character = profileResponse.characters.data[characterId]
-            return getActivities(character, 250, 64, 0, currentDate)
-        })
-        let results = Promise.all(gambitMap)
-        results.then(activitiesResponse => {
-            let allActivites = activitiesResponse.flat(1)
-            if (allActivites.length > 0) {
-                allActivites.forEach((activity) => {
-                    if (activity) {
-                        const activityDate = new Date(activity.period)
-                        if (checkDates(activityDate, currentDate) &&
-                            activity.values.completed.basic.value === 1 &&
-                            activity.values.standing.basic.value === 0 &&
-                            activity.values.efficiency.basic.value !== 0) {
-                                gambitWins = gambitWins + 1
+        if (profileResponse) { 
+            let gambitMap = Object.keys(profileResponse.characters.data).map((characterId, i) => {
+                const character = profileResponse.characters.data[characterId]
+                return getActivities(character, 250, 64, 0, currentDate)
+            })
+            let results = Promise.all(gambitMap)
+            results.then(activitiesResponse => {
+                let allActivites = activitiesResponse.flat(1)
+                if (allActivites.length > 0) {
+                    allActivites.forEach((activity) => {
+                        if (activity) {
+                            const activityDate = new Date(activity.period)
+                            if (checkDates(activityDate, currentDate) &&
+                                activity.values.completed.basic.value === 1 &&
+                                activity.values.standing.basic.value === 0 &&
+                                activity.values.efficiency.basic.value !== 0) {
+                                    gambitWins = gambitWins + 1
+                            }
                         }
-                    }
-                })
-            }
-            resolve(gambitWins)
-        })
+                    })
+                }
+                resolve(gambitWins)
+            })
+        } else { resolve(0) }
     })
 })
