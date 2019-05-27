@@ -4,7 +4,7 @@ export let checkDates = (date1, date2) => {
     return date1.getMonth() === date2.getMonth() && date1.getYear() === date2.getYear()
 }
 
-export let getRaidCount = (membershipId) => new Promise((resolve, reject) => {
+export let getRaidCount = (name, membershipId) => new Promise((resolve, reject) => {
 
     let raidCount = 0
     const currentDate = new Date()
@@ -30,13 +30,13 @@ export let getRaidCount = (membershipId) => new Promise((resolve, reject) => {
                         }
                     })
                 }
-                resolve(raidCount)
+                resolve({name, raidCount})
             })  
-        } else { resolve(0) }
+        } else { resolve({name, raidCount}) }
     })
 })
 
-export let getCrucibleWins = (membershipId) => new Promise((resolve, reject) => {
+export let getCrucibleWins = (name, membershipId) => new Promise((resolve, reject) => {
 
     let crucibleWins = 0
     const currentDate = new Date()
@@ -64,13 +64,13 @@ export let getCrucibleWins = (membershipId) => new Promise((resolve, reject) => 
                         }
                     })
                 }
-                resolve(crucibleWins)
+                resolve({name, crucibleWins})
             })
-        } else { resolve(0) }
+        } else { resolve({name, crucibleWins}) }
     })
 })
 
-export let getGambitWins = (membershipId) => new Promise((resolve, reject) => {
+export let getGambitWins = (name, membershipId) => new Promise((resolve, reject) => {
 
     let gambitWins = 0
     const currentDate = new Date()
@@ -98,15 +98,15 @@ export let getGambitWins = (membershipId) => new Promise((resolve, reject) => {
                         }
                     })
                 }
-                resolve(gambitWins)
+                resolve({name, gambitWins})
             })
-        } else { resolve(0) }
+        } else { resolve({name, gambitWins}) }
     })
 })
 
-export let getStrikeCount = (membershipId) => new Promise((resolve, reject) => {
+export let getStrikeCount = (name, membershipId) => new Promise((resolve, reject) => {
 
-    let count = 0
+    let strikeCount = 0
     const currentDate = new Date()
 
     getProfile(4, membershipId, [200])
@@ -125,13 +125,13 @@ export let getStrikeCount = (membershipId) => new Promise((resolve, reject) => {
                             const activityDate = new Date(activity.period)
                             if (checkDates(activityDate, currentDate) &&
                                 activity.values.completed.basic.value === 1) {
-                                count = count + 1
+                                strikeCount = strikeCount + 1
                             }
                         }
                     })
                 }
-                resolve(count)
+                resolve({name, strikeCount})
             })  
-        } else { resolve(0) }
+        } else { resolve({name, strikeCount}) }
     })
 })

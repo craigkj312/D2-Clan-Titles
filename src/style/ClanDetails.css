@@ -3,6 +3,13 @@
     background-image: linear-gradient(#060606cc, #060606ff), url(../images/backgrounds/Traveler-min.jpg);
     background-repeat: no-repeat;
     background-size: cover;
+    overflow: hidden;
+}
+
+.clan-details-scroll {
+    height: 100vh;
+    overflow-y: scroll;
+    padding-bottom: 36px;
 }
 
 .clan-details-content {
@@ -13,7 +20,7 @@
 }
 
 .title-table {
-    width: 480px;
+    width: 400px;
     height: 620px;
     margin: 0px 16px 16px 0px;
     background-color: #060606cc;
@@ -37,11 +44,24 @@
 }
 
 .member-row{
-    padding: 12px;
+    padding: 12px 18px 12px 18px;
     color: var(--white);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #F7F0F566;
+}
+
+.row-left-side {
+    display: flex;
+    flex-direction: row;
+}
+
+.row-rank {
+    margin-right: 12px;
+}
+
+.row-name {
+    font-weight: 500;
 }

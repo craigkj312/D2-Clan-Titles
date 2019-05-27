@@ -41,7 +41,7 @@ class ClanDetails extends React.Component {
         const home = (
             <div className='clan-details'>
             {isLoading ? <div className='loading'></div> :
-            <div>
+            <div className='clan-details-scroll'>
                 <ClanDetailsHeader groupId={groupId} />
                 <div className='clan-details-content'>
                     <RaiderTable memberList={memberList} />

@@ -12,26 +12,23 @@ export default class PvPTable extends React.Component {
 
         this.state = {
             isLoading: true,
-            winCounts: {}
+            winCounts: []
         }
     }
 
     componentDidMount() {
-        let winCounts = {}
-        this.props.memberList.forEach((member) => {
-            getGambitWins(member.destinyUserInfo.membershipId)
-            .then(response => {
-                winCounts[member.destinyUserInfo.displayName] = response
-                if (Object.keys(winCounts).length === this.props.memberList.length) {
-                    this.setState({isLoading: false, winCounts: winCounts})
-                }
-            })
+        let memberMap = this.props.memberList.map((member) => {
+            return getGambitWins(member.destinyUserInfo.displayName, member.destinyUserInfo.membershipId)
+        })
+        Promise.all(memberMap)
+        .then(response => {
+            this.setState({isLoading: false, winCounts: response})
         })
     }
 
     render() {
         const { isLoading, winCounts } = this.state
-        let sortedMembers = Object.keys(winCounts).sort(function(a,b){return winCounts[b]-winCounts[a]})
+        let sortedMembers = winCounts.sort(function(a,b){return b.gambitWins-a.gambitWins})
 
         const table = (
             <div className='title-table'>
@@ -42,7 +39,7 @@ export default class PvPTable extends React.Component {
                 {isLoading ? <div className='loading'></div> :
                 <div className='table-content'>
                     {sortedMembers.map((member, i) => {
-                        return <MemberRow key={i} rank={i+1} name={member} count={winCounts[member]} />
+                        return <MemberRow key={i} rank={i+1} name={member.name} count={member.gambitWins} />
                     })}
                 </div>}
             </div>

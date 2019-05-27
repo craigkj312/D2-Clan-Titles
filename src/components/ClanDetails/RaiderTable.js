@@ -12,27 +12,23 @@ export default class RaiderTable extends React.Component {
 
         this.state = {
             isLoading: true,
-            raidCounts: {}
+            raidCounts: []
         }
     }
 
     componentDidMount() {
-        let raidCounts = {}
-        this.props.memberList.forEach((member) => {
-            getRaidCount(member.destinyUserInfo.membershipId)
-            .then(response => {
-                // console.log(member.destinyUserInfo.displayName, response)
-                raidCounts[member.destinyUserInfo.displayName] = response
-                if (Object.keys(raidCounts).length === this.props.memberList.length) {
-                    this.setState({isLoading: false, raidCounts: raidCounts})
-                }
-            })
+        let memberMap = this.props.memberList.map((member) => {
+            return getRaidCount(member.destinyUserInfo.displayName, member.destinyUserInfo.membershipId)
+        })
+        Promise.all(memberMap)
+        .then(response => {
+            this.setState({isLoading: false, raidCounts: response})
         })
     }
 
     render() {
         const { isLoading, raidCounts } = this.state
-        let sortedMembers = Object.keys(raidCounts).sort(function(a,b){return raidCounts[b]-raidCounts[a]})
+        let sortedMembers = raidCounts.sort(function(a,b){return b.raidCount-a.raidCount})
 
         const table = (
             <div className='title-table'>
@@ -43,7 +39,7 @@ export default class RaiderTable extends React.Component {
                 {isLoading ? <div className='loading'></div> :
                 <div className='table-content'>
                     {sortedMembers.map((member, i) => {
-                        return <MemberRow key={i} rank={i+1} name={member} count={raidCounts[member]} />
+                        return <MemberRow key={i} rank={i+1} name={member.name} count={member.raidCount} />
                     })}
                 </div>}
             </div>

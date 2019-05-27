@@ -10,8 +10,10 @@ export default class MemberRow extends React.Component {
 
         const row = (
             <div className='member-row'>
-                <div>{rank}</div>
-                <div>{name}</div>
+                <div className='row-left-side'>
+                    <div className='row-rank'>{rank}</div>
+                    <div className='row-name'>{name}</div>
+                </div>
                 <div>{count}</div>
             </div>
         );

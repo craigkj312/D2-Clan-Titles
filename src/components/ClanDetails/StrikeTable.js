@@ -12,27 +12,23 @@ export default class StrikeTable extends React.Component {
 
         this.state = {
             isLoading: true,
-            strikeCounts: {}
+            strikeCounts: []
         }
     }
 
     componentDidMount() {
-        let strikeCounts = {}
-        this.props.memberList.forEach((member) => {
-            getStrikeCount(member.destinyUserInfo.membershipId)
-            .then(response => {
-                // console.log(member.destinyUserInfo.displayName, response)
-                strikeCounts[member.destinyUserInfo.displayName] = response
-                if (Object.keys(strikeCounts).length === this.props.memberList.length) {
-                    this.setState({isLoading: false, strikeCounts: strikeCounts})
-                }
-            })
+        let memberMap = this.props.memberList.map((member) => {
+            return getStrikeCount(member.destinyUserInfo.displayName, member.destinyUserInfo.membershipId)
+        })
+        Promise.all(memberMap)
+        .then(response => {
+            this.setState({isLoading: false, strikeCounts: response})
         })
     }
 
     render() {
         const { isLoading, strikeCounts } = this.state
-        let sortedMembers = Object.keys(strikeCounts).sort(function(a,b){return strikeCounts[b]-strikeCounts[a]})
+        let sortedMembers = strikeCounts.sort(function(a,b){return b.strikeCount-a.strikeCount})
 
         const table = (
             <div className='title-table'>
@@ -43,7 +39,7 @@ export default class StrikeTable extends React.Component {
                 {isLoading ? <div className='loading'></div> :
                 <div className='table-content'>
                     {sortedMembers.map((member, i) => {
-                        return <MemberRow key={i} rank={i+1} name={member} count={strikeCounts[member]} />
+                        return <MemberRow key={i} rank={i+1} name={member.name} count={member.strikeCount} />
                     })}
                 </div>}
             </div>
