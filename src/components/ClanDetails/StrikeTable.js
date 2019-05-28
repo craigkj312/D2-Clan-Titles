@@ -17,8 +17,18 @@ export default class StrikeTable extends React.Component {
     }
 
     componentDidMount() {
-        let memberMap = this.props.memberList.map((member) => {
-            return getStrikeCount(member.destinyUserInfo.displayName, member.destinyUserInfo.membershipId)
+        this.setStrikeCount(this.props)
+    }
+
+    componentWillReceiveProps(newProps) {
+        this.setState({isLoading: true})
+        this.setStrikeCount(newProps)
+    }
+
+    setStrikeCount = (p) => {
+        const { memberList, atDate } = p
+        let memberMap = memberList.map((member) => {
+            return getStrikeCount(member.destinyUserInfo.displayName, member.destinyUserInfo.membershipId, atDate)
         })
         Promise.all(memberMap)
         .then(response => {

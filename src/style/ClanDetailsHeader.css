@@ -21,10 +21,11 @@
 }
 
 .month-dropdown {
-    width: 120px;
+    width: 160px;
     position: absolute;
     right: 36px;
     background-color: var(--black);
+    cursor: pointer;
 }
 .month-dropdown>.Dropdown-control {
     padding: 12px;

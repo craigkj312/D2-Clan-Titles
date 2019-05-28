@@ -17,8 +17,18 @@ export default class PvPTable extends React.Component {
     }
 
     componentDidMount() {
-        let memberMap = this.props.memberList.map((member) => {
-            return getGambitWins(member.destinyUserInfo.displayName, member.destinyUserInfo.membershipId)
+        this.setWinCount(this.props)
+    }
+
+    componentWillReceiveProps(newProps) {
+        this.setState({isLoading: true})
+        this.setWinCount(newProps)
+    }
+
+    setWinCount = (p) => {
+        const { memberList, atDate } = p
+        let memberMap = memberList.map((member) => {
+            return getGambitWins(member.destinyUserInfo.displayName, member.destinyUserInfo.membershipId, atDate)
         })
         Promise.all(memberMap)
         .then(response => {

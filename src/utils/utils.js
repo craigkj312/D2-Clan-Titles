@@ -4,6 +4,17 @@ export let checkDates = (date1, date2) => {
     return date1.getMonth() === date2.getMonth() && date1.getYear() === date2.getYear()
 }
 
+export let getDate = (m, y) => {
+    let monthNames = [
+        "January", "February", "March",
+        "April", "May", "June", "July",
+        "August", "September", "October",
+        "November", "December"
+    ]
+
+    return new Date(monthNames[m] + ' ' + y)
+} 
+
 export let formatDate = (date) => {
     let monthNames = [
       "January", "February", "March",
@@ -18,17 +29,16 @@ export let formatDate = (date) => {
     return monthNames[monthIndex] + ' ' + year;
 }
 
-export let getRaidCount = (name, membershipId) => new Promise((resolve, reject) => {
+export let getRaidCount = (name, membershipId, atDate) => new Promise((resolve, reject) => {
 
     let raidCount = 0
-    const currentDate = new Date()
 
     getProfile(4, membershipId, [200])
     .then(profileResponse => {
         if (profileResponse) { 
             let raidMap = Object.keys(profileResponse.characters.data).map((characterId, i) => {
                 const character = profileResponse.characters.data[characterId]
-                return getActivities(character, 250, 4, 0, currentDate)
+                return getActivities(character, 250, 4, 0, atDate)
             })
             let results = Promise.all(raidMap)
             results.then(activitiesResponse => {
@@ -37,7 +47,7 @@ export let getRaidCount = (name, membershipId) => new Promise((resolve, reject) 
                     allActivites.forEach((activity) => {
                         if (activity) {
                             const activityDate = new Date(activity.period)
-                            if (checkDates(activityDate, currentDate) &&
+                            if (checkDates(activityDate, atDate) &&
                                 activity.values.completed.basic.value === 1) {
                                 raidCount = raidCount + 1
                             }
@@ -50,17 +60,16 @@ export let getRaidCount = (name, membershipId) => new Promise((resolve, reject) 
     })
 })
 
-export let getCrucibleWins = (name, membershipId) => new Promise((resolve, reject) => {
+export let getCrucibleWins = (name, membershipId, atDate) => new Promise((resolve, reject) => {
 
     let crucibleWins = 0
-    const currentDate = new Date()
 
     getProfile(4, membershipId, [200])
     .then(profileResponse => {
         if (profileResponse) { 
             let pvpMap = Object.keys(profileResponse.characters.data).map((characterId, i) => {
                 const character = profileResponse.characters.data[characterId]
-                return getActivities(character, 250, 5, 0, currentDate)
+                return getActivities(character, 250, 5, 0, atDate)
             })
             let results = Promise.all(pvpMap)
             results.then(activitiesResponse => {
@@ -69,7 +78,7 @@ export let getCrucibleWins = (name, membershipId) => new Promise((resolve, rejec
                     allActivites.forEach((activity) => {
                         if (activity) {
                             const activityDate = new Date(activity.period)
-                            if (checkDates(activityDate, currentDate) &&
+                            if (checkDates(activityDate, atDate) &&
                                 activity.values.completed.basic.value === 1 &&
                                 activity.values.standing.basic.value === 0 &&
                                 activity.values.efficiency.basic.value !== 0) {
@@ -84,17 +93,16 @@ export let getCrucibleWins = (name, membershipId) => new Promise((resolve, rejec
     })
 })
 
-export let getGambitWins = (name, membershipId) => new Promise((resolve, reject) => {
+export let getGambitWins = (name, membershipId, atDate) => new Promise((resolve, reject) => {
 
     let gambitWins = 0
-    const currentDate = new Date()
 
     getProfile(4, membershipId, [200])
     .then(profileResponse => {
         if (profileResponse) { 
             let gambitMap = Object.keys(profileResponse.characters.data).map((characterId, i) => {
                 const character = profileResponse.characters.data[characterId]
-                return getActivities(character, 250, 64, 0, currentDate)
+                return getActivities(character, 250, 64, 0, atDate)
             })
             let results = Promise.all(gambitMap)
             results.then(activitiesResponse => {
@@ -103,7 +111,7 @@ export let getGambitWins = (name, membershipId) => new Promise((resolve, reject)
                     allActivites.forEach((activity) => {
                         if (activity) {
                             const activityDate = new Date(activity.period)
-                            if (checkDates(activityDate, currentDate) &&
+                            if (checkDates(activityDate, atDate) &&
                                 activity.values.completed.basic.value === 1 &&
                                 activity.values.standing.basic.value === 0 &&
                                 activity.values.efficiency.basic.value !== 0) {
@@ -118,17 +126,16 @@ export let getGambitWins = (name, membershipId) => new Promise((resolve, reject)
     })
 })
 
-export let getStrikeCount = (name, membershipId) => new Promise((resolve, reject) => {
+export let getStrikeCount = (name, membershipId, atDate) => new Promise((resolve, reject) => {
 
     let strikeCount = 0
-    const currentDate = new Date()
 
     getProfile(4, membershipId, [200])
     .then(profileResponse => {
         if (profileResponse) { 
             let strikeMap = Object.keys(profileResponse.characters.data).map((characterId, i) => {
                 const character = profileResponse.characters.data[characterId]
-                return getActivities(character, 250, 18, 0, currentDate)
+                return getActivities(character, 250, 18, 0, atDate)
             })
             let results = Promise.all(strikeMap)
             results.then(activitiesResponse => {
@@ -137,7 +144,7 @@ export let getStrikeCount = (name, membershipId) => new Promise((resolve, reject
                     allActivites.forEach((activity) => {
                         if (activity) {
                             const activityDate = new Date(activity.period)
-                            if (checkDates(activityDate, currentDate) &&
+                            if (checkDates(activityDate, atDate) &&
                                 activity.values.completed.basic.value === 1) {
                                 strikeCount = strikeCount + 1
                             }

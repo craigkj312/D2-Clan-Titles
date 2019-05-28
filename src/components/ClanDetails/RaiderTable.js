@@ -17,8 +17,18 @@ export default class RaiderTable extends React.Component {
     }
 
     componentDidMount() {
-        let memberMap = this.props.memberList.map((member) => {
-            return getRaidCount(member.destinyUserInfo.displayName, member.destinyUserInfo.membershipId)
+        this.setRaidCount(this.props)
+    }
+
+    componentWillReceiveProps(newProps) {
+        this.setState({isLoading: true})
+        this.setRaidCount(newProps)
+    }
+
+    setRaidCount = (p) => {
+        const { memberList, atDate } = p
+        let memberMap = memberList.map((member) => {
+            return getRaidCount(member.destinyUserInfo.displayName, member.destinyUserInfo.membershipId, atDate)
         })
         Promise.all(memberMap)
         .then(response => {
