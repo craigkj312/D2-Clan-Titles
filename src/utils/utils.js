@@ -42,13 +42,15 @@ export let getRaidCount = (name, membershipId, atDate) => new Promise((resolve, 
             })
             let results = Promise.all(raidMap)
             results.then(activitiesResponse => {
+                // if (name === 'liquidangel') { console.log(activitiesResponse) }
                 let allActivites = activitiesResponse.flat(1)
                 if (allActivites.length > 0) {
                     allActivites.forEach((activity) => {
                         if (activity) {
                             const activityDate = new Date(activity.period)
                             if (checkDates(activityDate, atDate) &&
-                                activity.values.completed.basic.value === 1) {
+                                activity.values.completed.basic.value === 1 &&
+                                activity.values.completionReason.basic.displayValue !== 'Failed') {
                                 raidCount = raidCount + 1
                             }
                         }
