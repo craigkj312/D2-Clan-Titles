@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://craigkj312.github.io/D2-Clan-Titles/",
   "dependencies": {
+    "dotenv": "^8.0.0",
     "downshift": "^3.2.7",
     "gh-pages": "^2.0.1",
     "query-string": "^6.4.2",

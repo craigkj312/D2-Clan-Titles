@@ -4,6 +4,14 @@ export let checkDates = (date1, date2) => {
     return date1.getMonth() === date2.getMonth() && date1.getYear() === date2.getYear()
 }
 
+export let isNewerDate =(date1, date2) => {
+    return date1.getYear() > date2.getYear() || (date1.getYear() === date2.getYear() && date1.getMonth() > date2.getMonth())
+}
+
+export let isNewerOrEqualDate =(date1, date2) => {
+    return date1.getYear() > date2.getYear() || (date1.getYear() === date2.getYear() && date1.getMonth() >= date2.getMonth())
+}
+
 export let getDate = (m, y) => {
     let monthNames = [
         "January", "February", "March",
@@ -29,21 +37,27 @@ export let formatDate = (date) => {
     return monthNames[monthIndex] + ' ' + year;
 }
 
+export let createCharactersMap = (profile, atDate) => {
+    let characters = Object.keys(profile.characters.data).map((characterId, i) => {
+        return profile.characters.data[characterId]
+    })
+    return characters.filter((c) => isNewerOrEqualDate(new Date(c.dateLastPlayed), atDate))
+}
+
 export let getRaidCount = (name, membershipId, atDate) => new Promise((resolve, reject) => {
 
     let raidCount = 0
 
     getProfile(4, membershipId, [200])
     .then(profileResponse => {
-        if (profileResponse) { 
-            let raidMap = Object.keys(profileResponse.characters.data).map((characterId, i) => {
-                const character = profileResponse.characters.data[characterId]
-                return getActivities(character, 250, 4, 0, atDate)
+        if (profileResponse) {
+            let characters = createCharactersMap(profileResponse, atDate)
+            let raidMap = characters.map((character) => {
+                return getActivities(character, 50, 4, 0, atDate)
             })
             let results = Promise.all(raidMap)
             results.then(activitiesResponse => {
-                // if (name === 'liquidangel') { console.log(activitiesResponse) }
-                let allActivites = activitiesResponse.flat(1)
+                let allActivites = activitiesResponse.reduce((acc, val) => acc.concat(val), []);
                 if (allActivites.length > 0) {
                     allActivites.forEach((activity) => {
                         if (activity) {
@@ -58,8 +72,16 @@ export let getRaidCount = (name, membershipId, atDate) => new Promise((resolve, 
                 }
                 resolve({name, raidCount})
             })  
+            .catch((err) => {
+                console.log('GET Raid Activities Error : ', name);
+                resolve({name, raidCount})
+            });
         } else { resolve({name, raidCount}) }
     })
+    .catch((err) => {
+        console.log('GET Profile Error : ', name);
+        resolve({name, raidCount})
+    });
 })
 
 export let getCrucibleWins = (name, membershipId, atDate) => new Promise((resolve, reject) => {
@@ -68,14 +90,14 @@ export let getCrucibleWins = (name, membershipId, atDate) => new Promise((resolv
 
     getProfile(4, membershipId, [200])
     .then(profileResponse => {
-        if (profileResponse) { 
-            let pvpMap = Object.keys(profileResponse.characters.data).map((characterId, i) => {
-                const character = profileResponse.characters.data[characterId]
-                return getActivities(character, 250, 5, 0, atDate)
+        if (profileResponse) {
+            let characters = createCharactersMap(profileResponse, atDate)
+            let pvpMap = characters.map((character) => {
+                return getActivities(character, 200, 5, 0, atDate)
             })
             let results = Promise.all(pvpMap)
             results.then(activitiesResponse => {
-                let allActivites = activitiesResponse.flat(1)
+                let allActivites = activitiesResponse.reduce((acc, val) => acc.concat(val), []);
                 if (allActivites.length > 0) {
                     allActivites.forEach((activity) => {
                         if (activity) {
@@ -91,9 +113,20 @@ export let getCrucibleWins = (name, membershipId, atDate) => new Promise((resolv
                 }
                 resolve({name, crucibleWins})
             })
+            .catch((err) => {
+                console.log('GET Crucible Activities Error : ', name);
+                // reject('GET Activities Error');
+                resolve({name, crucibleWins})
+            });
         } else { resolve({name, crucibleWins}) }
     })
+    .catch((err) => {
+        console.log('GET Profile Error : ', name);
+        // reject('Domain token error. No response.data.');
+        resolve({name, crucibleWins})
+    });
 })
+
 
 export let getGambitWins = (name, membershipId, atDate) => new Promise((resolve, reject) => {
 
@@ -101,14 +134,14 @@ export let getGambitWins = (name, membershipId, atDate) => new Promise((resolve,
 
     getProfile(4, membershipId, [200])
     .then(profileResponse => {
-        if (profileResponse) { 
-            let gambitMap = Object.keys(profileResponse.characters.data).map((characterId, i) => {
-                const character = profileResponse.characters.data[characterId]
-                return getActivities(character, 250, 64, 0, atDate)
+        if (profileResponse) {
+            let characters = createCharactersMap(profileResponse, atDate)
+            let gambitMap = characters.map((character) => {
+                return getActivities(character, 100, 64, 0, atDate)
             })
             let results = Promise.all(gambitMap)
             results.then(activitiesResponse => {
-                let allActivites = activitiesResponse.flat(1)
+                let allActivites = activitiesResponse.reduce((acc, val) => acc.concat(val), []);
                 if (allActivites.length > 0) {
                     allActivites.forEach((activity) => {
                         if (activity) {
@@ -124,8 +157,18 @@ export let getGambitWins = (name, membershipId, atDate) => new Promise((resolve,
                 }
                 resolve({name, gambitWins})
             })
+            .catch((err) => {
+                console.log('GET Gambit Activities Error : ', name);
+                // reject('GET Activities Error');
+                resolve({name, gambitWins})
+            });
         } else { resolve({name, gambitWins}) }
     })
+    .catch((err) => {
+        console.log('GET Profile Error : ', name);
+        // reject('Domain token error. No response.data.');
+        resolve({name, gambitWins})
+    });
 })
 
 export let getStrikeCount = (name, membershipId, atDate) => new Promise((resolve, reject) => {
@@ -134,14 +177,14 @@ export let getStrikeCount = (name, membershipId, atDate) => new Promise((resolve
 
     getProfile(4, membershipId, [200])
     .then(profileResponse => {
-        if (profileResponse) { 
-            let strikeMap = Object.keys(profileResponse.characters.data).map((characterId, i) => {
-                const character = profileResponse.characters.data[characterId]
-                return getActivities(character, 250, 18, 0, atDate)
+        if (profileResponse) {
+            let characters = createCharactersMap(profileResponse, atDate)
+            let strikeMap = characters.map((character) => {
+                return getActivities(character, 100, 18, 0, atDate)
             })
             let results = Promise.all(strikeMap)
             results.then(activitiesResponse => {
-                let allActivites = activitiesResponse.flat(1)
+                let allActivites = activitiesResponse.reduce((acc, val) => acc.concat(val), []);
                 if (allActivites.length > 0) {
                     allActivites.forEach((activity) => {
                         if (activity) {
@@ -154,7 +197,17 @@ export let getStrikeCount = (name, membershipId, atDate) => new Promise((resolve
                     })
                 }
                 resolve({name, strikeCount})
-            })  
+            })
+            .catch((err) => {
+                console.log('GET Strikes Activities Error : ', name);
+                // reject('GET Activities Error');
+                resolve({name, strikeCount})
+            });  
         } else { resolve({name, strikeCount}) }
     })
+    .catch((err) => {
+        console.log('GET Profile Error : ', name);
+        // reject('Domain token error. No response.data.');
+        resolve({name, strikeCount})
+    });
 })
