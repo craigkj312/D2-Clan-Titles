@@ -1,6 +1,6 @@
 # Destiny 2 Clan Titles
 
-A simple webapp to let you see which players in your clan did the most activities in a given month. Currently has titles for raids completed, crucible matches won, gambit matches won, and strikes completed.
+A simple webapp to let you see which players in your clan did the most activities in a given month. Currently has titles for raids completed, crucible matches won, gambit matches won, strikes completed, and menagerie runs completed.
 
 ## Setup
 
