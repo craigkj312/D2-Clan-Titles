@@ -211,3 +211,44 @@ export let getStrikeCount = (name, membershipId, atDate) => new Promise((resolve
         resolve({name, strikeCount})
     });
 })
+
+export let getMenagerieCount = (name, membershipId, atDate) => new Promise((resolve, reject) => {
+
+    let menagerieCount = 0
+
+    getProfile(4, membershipId, [200])
+    .then(profileResponse => {
+        if (profileResponse) {
+            let characters = createCharactersMap(profileResponse, atDate)
+            let menagerieMap = characters.map((character) => {
+                return getActivities(character, 50, 77, 0, atDate)
+            })
+            let results = Promise.all(menagerieMap)
+            results.then(activitiesResponse => {
+                let allActivites = activitiesResponse.reduce((acc, val) => acc.concat(val), []);
+                if (allActivites.length > 0) {
+                    allActivites.forEach((activity) => {
+                        if (activity) {
+                            console.log(activity)
+                            const activityDate = new Date(activity.period)
+                            if (checkDates(activityDate, atDate) &&
+                                activity.values.completed.basic.value === 1 &&
+                                activity.values.completionReason.basic.displayValue !== 'Failed') {
+                                menagerieCount = menagerieCount + 1
+                            }
+                        }
+                    })
+                }
+                resolve({name, menagerieCount})
+            })  
+            .catch((err) => {
+                console.log('GET Menagerie Activities Error : ', name);
+                resolve({name, menagerieCount})
+            });
+        } else { resolve({name, menagerieCount}) }
+    })
+    .catch((err) => {
+        console.log('GET Profile Error : ', name);
+        resolve({name, menagerieCount})
+    });
+})

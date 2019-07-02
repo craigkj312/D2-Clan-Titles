@@ -10,7 +10,7 @@ import RaiderTable from '../components/ClanDetails/RaiderTable';
 import PvPTable from '../components/ClanDetails/PvPTable';
 import GambitTable from '../components/ClanDetails/GambitTable';
 import StrikeTable from '../components/ClanDetails/StrikeTable';
-
+import MenagerieTable from '../components/ClanDetails/MenagerieTable';
 
 class ClanDetails extends React.Component {
 
@@ -56,6 +56,7 @@ class ClanDetails extends React.Component {
                     <PvPTable memberList={memberList} atDate={activeDate} />
                     <GambitTable memberList={memberList} atDate={activeDate} />
                     <StrikeTable memberList={memberList} atDate={activeDate} />
+                    <MenagerieTable memberList={memberList} atDate={activeDate} />
                 </div>
             </div>}
             </div>
