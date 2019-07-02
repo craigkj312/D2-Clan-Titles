@@ -1,13 +1,16 @@
 # Destiny 2 Clan Titles
 
-- node v10.15.3
-- npm v6.4.1
+A simple webapp to let you see which players in your clan did the most activities in a given month. Currently has titles for raids completed, crucible matches won, gambit matches won, and strikes completed.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Setup
 
-## Available Scripts
+In the project directory:
 
-In the project directory, you can run:
+1. `cp .env-template .env`
+2. Add your Bungie.net API key to `.env`. You can get one [here](https://www.bungie.net/en/Application).
+3. `npm install`
+
+## Running
 
 ### `npm start`
 
@@ -33,7 +36,7 @@ Your app is ready to be deployed!
 ### `npm run deploy`
 
 Builds the app for production to the `build` folder then deploys the build to GitHub Pages.<br>
-The most recent deployment can be seen at [Here](https://craigkj312.github.io/D2-Clan-Titles/).
+The most recent deployment can be seen [here](https://craigkj312.github.io/D2-Clan-Titles/).
 
 ### `npm run eject`
 
@@ -47,26 +50,10 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+You can learn more in the [Create React App docs](https://facebook.github.io/create-react-app/docs/getting-started).
 
-### Code Splitting
+To learn React, check out the [React docs](https://reactjs.org/).
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+To read more about the Bungie.net API, check out the [Bungie.net API docs](https://bungie-net.github.io/).
