@@ -32,6 +32,7 @@ class ClanDetails extends React.Component {
 
         getClanMembers(groupId)
         .then(response => {
+            // console.log(response.results)
             this.setState({isLoading: false, memberList: response.results})
         })
     }

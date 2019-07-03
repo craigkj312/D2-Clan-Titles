@@ -190,7 +190,8 @@ export let getStrikeCount = (name, membershipId, atDate) => new Promise((resolve
                         if (activity) {
                             const activityDate = new Date(activity.period)
                             if (checkDates(activityDate, atDate) &&
-                                activity.values.completed.basic.value === 1) {
+                                activity.values.completed.basic.value === 1 &&
+                                activity.values.efficiency.basic.value > 0) {
                                 strikeCount = strikeCount + 1
                             }
                         }
@@ -229,7 +230,6 @@ export let getMenagerieCount = (name, membershipId, atDate) => new Promise((reso
                 if (allActivites.length > 0) {
                     allActivites.forEach((activity) => {
                         if (activity) {
-                            console.log(activity)
                             const activityDate = new Date(activity.period)
                             if (checkDates(activityDate, atDate) &&
                                 activity.values.completed.basic.value === 1 &&
