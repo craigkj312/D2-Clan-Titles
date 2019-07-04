@@ -158,3 +158,53 @@ export let getClanMembers = (groupId) => new Promise((resolve, reject) => {
         reject('Fetch Error : getClanMembers');
     });
 })
+
+export let getManifest = () => new Promise((resolve, reject) => {
+
+    fetch(`${apiURL}/Destiny2/Manifest/`, {
+        method: 'GET',
+        headers: {
+            "X-API-Key": apiKey
+        }
+    })
+    .then((response) => {
+        if (response.status !== 200) {
+            console.log('Error Performing GET Manifest. Status Code: ' + response.status);
+            reject('Error Performing GET Manifest.');
+        } else {
+            response.json().then((data) => {
+                // console.log(data);
+                resolve(data.Response);
+            });
+        }
+    })
+    .catch((err) => {
+        console.log('Fetch Error : getManifest : ', err);
+        reject('Fetch Error : getManifest');
+    });
+})
+
+export let getFromHash = (entityType, hash) => new Promise((resolve, reject) => {
+
+    fetch(`${apiURL}/Destiny2/Manifest/${entityType}/${hash}/`, {
+        method: 'GET',
+        headers: {
+            "X-API-Key": apiKey
+        }
+    })
+    .then((response) => {
+        if (response.status !== 200) {
+            console.log('Error Performing GET Entity. Status Code: ' + response.status);
+            reject('Error Performing GET Entity.');
+        } else {
+            response.json().then((data) => {
+                // console.log(data);
+                resolve(data.Response);
+            });
+        }
+    })
+    .catch((err) => {
+        console.log('Fetch Error : getFromHash : ', err);
+        reject('Fetch Error : getFromHash');
+    });
+})

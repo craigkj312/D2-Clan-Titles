@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { getClanMembers } from '../utils/api';
-import { getRaidCount, getCrucibleWins, getGambitWins, getStrikeCount, getMenagerieCount } from '../utils/utils';
+import { 
+    getRaidCount, 
+    getCrucibleWins, 
+    getGambitWins, 
+    getStrikeCount, 
+    getMenagerieCount,
+    getCoSCount } from '../utils/titles';
 
 import '../style/ClanDetails.css';
 
@@ -54,7 +60,11 @@ class ClanDetails extends React.Component {
                     <TitleTable title="Gladiator" description="Wins in the Crucible." reqFunction={getCrucibleWins} memberList={memberList} atDate={activeDate} />
                     <TitleTable title="Dredgen" description="Wins in Gambit and Gambit Prime." reqFunction={getGambitWins} memberList={memberList} atDate={activeDate} />
                     <TitleTable title="Vanguard" description="Strikes and Nightfalls Completed." reqFunction={getStrikeCount} memberList={memberList} atDate={activeDate} />
+                </div>
+                <div className='clan-details-section-header'> Seasonal Titles </div>
+                <div className='clan-details-content'>
                     <TitleTable title="Shadow" description="Menagerie Runs Completed." reqFunction={getMenagerieCount} memberList={memberList} atDate={activeDate} />
+                    {/* <TitleTable title="Sorrow Bearer" description="Crown of Sorrow Raids Completed." reqFunction={getCoSCount} memberList={memberList} atDate={activeDate} /> */}
                 </div>
             </div>}
             </div>
