@@ -9,6 +9,10 @@ a {
 .App {
   position: relative;
   height: 100vh;
+  background-image: linear-gradient(#060606cc, #060606ff), url(../images/backgrounds/Traveler-min.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
 }
 
 :root {

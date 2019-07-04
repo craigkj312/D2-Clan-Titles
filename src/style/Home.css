@@ -1,44 +1,38 @@
 .home {
     height: 100vh;
-    background-image: url(../images/backgrounds/AllClasses-min.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
-.home-title-container {
+.home-content {
+    width: 100%;
+    position: absolute;
+    top: 30%;
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 20%;
-    left: 15%;
+    align-items: center;
 }
 
-.home-title-top {
+.home-title {
     font-size: 70px;
-    color: var(--onyx);
-    max-height: 70px;
-    color: var(--red);
+    color: var(--white);
 }
 
-.home-title-bottom {
-    font-size: 96px;
-    color: var(--onyx);
-    max-height: 110px;
+.home-subtitle {
+    font-size: 24px;
+    font-weight: 100;
+    color: var(--white);
+    opacity: 0.75;
+    margin-bottom: 40px;
 }
 
 .search-container {
-    position: absolute;
-    top: 45%;
-    left: 15%;
     display: flex;
     align-items: center;
     flex-direction: column;
 }
 
 .search-field {
-    width: 360px;
+    width: 620px;
     height: 50px;
-    
     border: solid 1px var(--white);
     color: var(--white);
     background-color: var(--onyx);
@@ -47,7 +41,7 @@
 }
 
 .press-enter {
-    font-size: 12px;
-    color: var(--onyx);
+    font-size: 14px;
+    color: var(--white);
     margin-top: 8px;
 }
