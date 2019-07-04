@@ -2,15 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { getClanMembers } from '../utils/api';
+import { getRaidCount, getCrucibleWins, getGambitWins, getStrikeCount, getMenagerieCount } from '../utils/utils';
 
 import '../style/ClanDetails.css';
 
 import ClanDetailsHeader from '../components/ClanDetails/ClanDetailsHeader';
-import RaiderTable from '../components/ClanDetails/RaiderTable';
-import PvPTable from '../components/ClanDetails/PvPTable';
-import GambitTable from '../components/ClanDetails/GambitTable';
-import StrikeTable from '../components/ClanDetails/StrikeTable';
-import MenagerieTable from '../components/ClanDetails/MenagerieTable';
+import TitleTable from '../components/ClanDetails/TitleTable';
 
 class ClanDetails extends React.Component {
 
@@ -53,11 +50,11 @@ class ClanDetails extends React.Component {
             <div className='clan-details-scroll'>
                 <ClanDetailsHeader groupId={groupId} activeDate={activeDate} changeDate={this.changeDate} />
                 <div className='clan-details-content'>
-                    <RaiderTable memberList={memberList} atDate={activeDate} />
-                    <PvPTable memberList={memberList} atDate={activeDate} />
-                    <GambitTable memberList={memberList} atDate={activeDate} />
-                    <StrikeTable memberList={memberList} atDate={activeDate} />
-                    <MenagerieTable memberList={memberList} atDate={activeDate} />
+                    <TitleTable title="Raider" description="Raids Completed." reqFunction={getRaidCount} memberList={memberList} atDate={activeDate} />
+                    <TitleTable title="Gladiator" description="Wins in the Crucible." reqFunction={getCrucibleWins} memberList={memberList} atDate={activeDate} />
+                    <TitleTable title="Dredgen" description="Wins in Gambit and Gambit Prime." reqFunction={getGambitWins} memberList={memberList} atDate={activeDate} />
+                    <TitleTable title="Vanguard" description="Strikes and Nightfalls Completed." reqFunction={getStrikeCount} memberList={memberList} atDate={activeDate} />
+                    <TitleTable title="Shadow" description="Menagerie Runs Completed." reqFunction={getMenagerieCount} memberList={memberList} atDate={activeDate} />
                 </div>
             </div>}
             </div>

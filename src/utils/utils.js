@@ -70,17 +70,17 @@ export let getRaidCount = (name, membershipId, atDate) => new Promise((resolve, 
                         }
                     })
                 }
-                resolve({name, raidCount})
+                resolve({name, count: raidCount})
             })  
             .catch((err) => {
                 console.log('GET Raid Activities Error : ', name);
-                resolve({name, raidCount})
+                resolve({name, count: raidCount})
             });
-        } else { resolve({name, raidCount}) }
+        } else { resolve({name, count: raidCount}) }
     })
     .catch((err) => {
         console.log('GET Profile Error : ', name);
-        resolve({name, raidCount})
+        resolve({name, count: raidCount})
     });
 })
 
@@ -111,19 +111,19 @@ export let getCrucibleWins = (name, membershipId, atDate) => new Promise((resolv
                         }
                     })
                 }
-                resolve({name, crucibleWins})
+                resolve({name, count: crucibleWins})
             })
             .catch((err) => {
                 console.log('GET Crucible Activities Error : ', name);
                 // reject('GET Activities Error');
-                resolve({name, crucibleWins})
+                resolve({name, count: crucibleWins})
             });
-        } else { resolve({name, crucibleWins}) }
+        } else { resolve({name, count: crucibleWins}) }
     })
     .catch((err) => {
         console.log('GET Profile Error : ', name);
         // reject('Domain token error. No response.data.');
-        resolve({name, crucibleWins})
+        resolve({name, count: crucibleWins})
     });
 })
 
@@ -155,19 +155,19 @@ export let getGambitWins = (name, membershipId, atDate) => new Promise((resolve,
                         }
                     })
                 }
-                resolve({name, gambitWins})
+                resolve({name, count: gambitWins})
             })
             .catch((err) => {
                 console.log('GET Gambit Activities Error : ', name);
                 // reject('GET Activities Error');
-                resolve({name, gambitWins})
+                resolve({name, count: gambitWins})
             });
-        } else { resolve({name, gambitWins}) }
+        } else { resolve({name, count: gambitWins}) }
     })
     .catch((err) => {
         console.log('GET Profile Error : ', name);
         // reject('Domain token error. No response.data.');
-        resolve({name, gambitWins})
+        resolve({name, count: gambitWins})
     });
 })
 
@@ -197,19 +197,19 @@ export let getStrikeCount = (name, membershipId, atDate) => new Promise((resolve
                         }
                     })
                 }
-                resolve({name, strikeCount})
+                resolve({name, count: strikeCount})
             })
             .catch((err) => {
                 console.log('GET Strikes Activities Error : ', name);
                 // reject('GET Activities Error');
-                resolve({name, strikeCount})
+                resolve({name, count: strikeCount})
             });  
-        } else { resolve({name, strikeCount}) }
+        } else { resolve({name, count: strikeCount}) }
     })
     .catch((err) => {
         console.log('GET Profile Error : ', name);
         // reject('Domain token error. No response.data.');
-        resolve({name, strikeCount})
+        resolve({name, count: strikeCount})
     });
 })
 
@@ -239,16 +239,16 @@ export let getMenagerieCount = (name, membershipId, atDate) => new Promise((reso
                         }
                     })
                 }
-                resolve({name, menagerieCount})
+                resolve({name, count: menagerieCount})
             })  
             .catch((err) => {
                 console.log('GET Menagerie Activities Error : ', name);
-                resolve({name, menagerieCount})
+                resolve({name, count: menagerieCount})
             });
-        } else { resolve({name, menagerieCount}) }
+        } else { resolve({name, count: menagerieCount}) }
     })
     .catch((err) => {
         console.log('GET Profile Error : ', name);
-        resolve({name, menagerieCount})
+        resolve({name, count: menagerieCount})
     });
 })

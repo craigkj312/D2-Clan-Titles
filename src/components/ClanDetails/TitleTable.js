@@ -1,55 +1,55 @@
 import React from 'react';
-import { getStrikeCount } from '../../utils/utils';
 
 import '../../style/ClanDetails.css';
 
 import MemberRow from './MemberRow';
 
-export default class StrikeTable extends React.Component {
+export default class TitleTable extends React.Component {
 
     constructor(props) {
         super(props)
 
         this.state = {
             isLoading: true,
-            strikeCounts: []
+            counts: []
         }
     }
 
     componentDidMount() {
-        this.setStrikeCount(this.props)
+        this.setCounts(this.props)
     }
 
     componentWillReceiveProps(newProps) {
         this.setState({isLoading: true})
-        this.setStrikeCount(newProps)
+        this.setRaidCount(newProps)
     }
 
-    setStrikeCount = (p) => {
-        const { memberList, atDate } = p
+    setCounts = (p) => {
+        const { memberList, atDate, reqFunction } = p
         let memberMap = memberList.map((member) => {
-            return getStrikeCount(member.destinyUserInfo.displayName, member.destinyUserInfo.membershipId, atDate)
+            return reqFunction(member.destinyUserInfo.displayName, member.destinyUserInfo.membershipId, atDate)
         })
         Promise.all(memberMap)
         .then(response => {
-            this.setState({isLoading: false, strikeCounts: response})
+            this.setState({isLoading: false, counts: response})
         })
     }
 
     render() {
-        const { isLoading, strikeCounts } = this.state
-        let sortedMembers = strikeCounts.sort(function(a,b){return b.strikeCount-a.strikeCount})
+        const { title, description } = this.props
+        const { isLoading, counts } = this.state
+        let sortedMembers = counts.sort(function(a,b){return b.count-a.count})
 
         const table = (
             <div className='title-table'>
                 <div className='table-header'> 
-                    <div>Vanguard</div>
-                    <div className='table-sub-header'>Strikes and Nightfalls Completed.</div>
+                    <div>{title}</div>
+                    <div className='table-sub-header'>{description}</div>
                 </div>
                 {isLoading ? <div className='loading'></div> :
                 <div className='table-content'>
                     {sortedMembers.map((member, i) => {
-                        return <MemberRow key={i} rank={i+1} name={member.name} count={member.strikeCount} />
+                        return <MemberRow key={i} rank={i+1} name={member.name} count={member.count} />
                     })}
                 </div>}
             </div>
