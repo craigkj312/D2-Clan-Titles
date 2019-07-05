@@ -63,7 +63,10 @@ class ClanDetails extends React.Component {
                     <TitleTable title="Dredgen" description="Wins in Gambit and Gambit Prime." reqFunction={getGambitWins} memberList={memberList} atDate={activeDate} />
                     <TitleTable title="Vanguard" description="Strikes and Nightfalls Completed." reqFunction={getStrikeCount} memberList={memberList} atDate={activeDate} />
                 </div>
-                <div className='clan-details-section-header'> Seasonal Titles </div>
+                <div className='clan-details-section-header'>
+                    <div>Seasonal Titles</div>
+                    <div className='clan-details-section-subheader'>Monthly titles only available during the Season of Opulence</div>
+                </div>
                 <div className='clan-details-content'>
                     <TitleTable title="Shadow" description="Menagerie Runs Completed." reqFunction={getMenagerieCount} memberList={memberList} atDate={activeDate} />
                     <TitleTable title="Sorrow Bearer" description="Crown of Sorrow Raids Completed." reqFunction={getCoSCount} memberList={memberList} atDate={activeDate} />
