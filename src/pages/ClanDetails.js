@@ -43,7 +43,7 @@ class ClanDetails extends React.Component {
             })
             Promise.all(memberProfileRequests)
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 this.setState({isLoading: false, memberProfiles: response})
             })
         })

@@ -2,6 +2,7 @@ import { getActivities, getFromHash, getPGCR } from './api';
 import { checkDates, createCharactersMap } from './utils';
 
 let knownWeapons = {}
+let knownPGCRs = {}
 
 export let getRaidCount = (member, atDate) => new Promise((resolve, reject) => {
 
@@ -235,22 +236,26 @@ export let getPvPSniperKills = (member, atDate) => new Promise((resolve, reject)
         let allActivites = activitiesResponse.reduce((acc, val) => acc.concat(val), []);
         if (allActivites.length > 0) {
             let PGCRPromises = []
+            let allPGCRs = []
             allActivites.forEach((activity) => {
                 if (activity) {
                     // console.log(activity);
                     const activityDate = new Date(activity.period)
                     if (checkDates(activityDate, atDate) && activity.values.efficiency.basic.value !== 0) {
-                        PGCRPromises.push(getPGCR(activity.activityDetails.instanceId))
+                        if (knownPGCRs[activity.activityDetails.instanceId]) { allPGCRs.push(knownPGCRs[activity.activityDetails.instanceId]) }
+                        else { PGCRPromises.push(getPGCR(activity.activityDetails.instanceId)) }
                     }
                 }
             })
-            if (PGCRPromises.length === 0) { resolve({name, count: sniperKills}) }
+            if (allPGCRs.length === 0 && PGCRPromises.length === 0) { resolve({name, count: sniperKills}) }
             else {
                 let PGCRs = Promise.all(PGCRPromises)
                 PGCRs.then(PGCRResponse => {
                     let weaponKills = {}
-                    PGCRResponse.forEach((pgcr) => {
+                    allPGCRs = allPGCRs.concat(PGCRResponse)
+                    allPGCRs.forEach((pgcr) => {
                         if (pgcr) {
+                            if (!knownPGCRs[pgcr.activityDetails.instanceId]) { knownPGCRs[pgcr.activityDetails.instanceId] = pgcr }
                             let player = pgcr.entries.filter((entry) => { return entry.player.destinyUserInfo.membershipId === member.profile.data.userInfo.membershipId })[0]
                             // console.log(player)
                             if (player.extended.weapons) {
@@ -318,21 +323,25 @@ export let getLoWKills = (member, atDate) => new Promise((resolve, reject) => {
         let allActivites = activitiesResponse.reduce((acc, val) => acc.concat(val), []);
         if (allActivites.length > 0) {
             let PGCRPromises = []
+            let allPGCRs = []
             allActivites.forEach((activity) => {
                 if (activity) {
                     // console.log(activity);
                     const activityDate = new Date(activity.period)
                     if (checkDates(activityDate, atDate) && activity.values.efficiency.basic.value !== 0) {
-                        PGCRPromises.push(getPGCR(activity.activityDetails.instanceId))
+                        if (knownPGCRs[activity.activityDetails.instanceId]) { allPGCRs.push(knownPGCRs[activity.activityDetails.instanceId]) }
+                        else { PGCRPromises.push(getPGCR(activity.activityDetails.instanceId)) }
                     }
                 }
             })
-            if (PGCRPromises.length === 0) { resolve({name, count: lowKills}) }
+            if (allPGCRs.length === 0 && PGCRPromises.length === 0) { resolve({name, count: lowKills}) }
             else {
                 let PGCRs = Promise.all(PGCRPromises)
                 PGCRs.then(PGCRResponse => {
-                    PGCRResponse.forEach((pgcr) => {
+                    allPGCRs = allPGCRs.concat(PGCRResponse)
+                    allPGCRs.forEach((pgcr) => {
                         if (pgcr) {
+                            if (!knownPGCRs[pgcr.activityDetails.instanceId]) { knownPGCRs[pgcr.activityDetails.instanceId] = pgcr }
                             let player = pgcr.entries.filter((entry) => { return entry.player.destinyUserInfo.membershipId === member.profile.data.userInfo.membershipId })[0]
                             if (player.extended.weapons) {
                                 player.extended.weapons.forEach((weapon) => {
