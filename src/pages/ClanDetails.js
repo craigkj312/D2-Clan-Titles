@@ -9,7 +9,8 @@ import {
     getStrikeCount, 
     getMenagerieCount,
     getCoSCount,
-    getPvPSniperKills } from '../utils/titles';
+    getPvPSniperKills,
+    getLoWKills } from '../utils/titles';
 
 import '../style/ClanDetails.css';
 
@@ -67,6 +68,7 @@ class ClanDetails extends React.Component {
                     <TitleTable title="Shadow" description="Menagerie Runs Completed." reqFunction={getMenagerieCount} memberList={memberList} atDate={activeDate} />
                     <TitleTable title="Sorrow Bearer" description="Crown of Sorrow Raids Completed." reqFunction={getCoSCount} memberList={memberList} atDate={activeDate} />
                     <TitleTable title="Revoker" description="Crucible Sniper Kills." reqFunction={getPvPSniperKills} memberList={memberList} atDate={activeDate} />
+                    <TitleTable title="Dances With Wolves" description="Crucible Lord of Wolves Kills." reqFunction={getLoWKills} memberList={memberList} atDate={activeDate} />
                 </div>
             </div>}
             </div>

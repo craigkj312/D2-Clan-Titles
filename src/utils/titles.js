@@ -363,3 +363,68 @@ export let getPvPSniperKills = (name, membershipId, atDate) => new Promise((reso
         resolve({name, count: sniperKills})
     });
 })
+
+export let getLoWKills = (name, membershipId, atDate) => new Promise((resolve, reject) => {
+
+    let lowKills = 0
+
+    getProfile(4, membershipId, [200])
+    .then(profileResponse => {
+        if (profileResponse) {
+            let characters = createCharactersMap(profileResponse, atDate)
+            let pvpMap = characters.map((character) => {
+                return getActivities(character, 200, 5, 0, atDate)
+            })
+            let results = Promise.all(pvpMap)
+            results.then(activitiesResponse => {
+                let allActivites = activitiesResponse.reduce((acc, val) => acc.concat(val), []);
+                if (allActivites.length > 0) {
+                    let PGCRPromises = []
+                    allActivites.forEach((activity) => {
+                        if (activity) {
+                            // console.log(activity);
+                            const activityDate = new Date(activity.period)
+                            if (checkDates(activityDate, atDate) && activity.values.efficiency.basic.value !== 0) {
+                                PGCRPromises.push(getPGCR(activity.activityDetails.instanceId))
+                            }
+                        }
+                    })
+                    if (PGCRPromises.length === 0) { resolve({name, count: lowKills}) }
+                    else {
+                        let PGCRs = Promise.all(PGCRPromises)
+                        PGCRs.then(PGCRResponse => {
+                            PGCRResponse.forEach((pgcr) => {
+                                if (pgcr) {
+                                    let player = pgcr.entries.filter((entry) => { return entry.player.destinyUserInfo.membershipId === membershipId })[0]
+                                    if (player.extended.weapons) {
+                                        player.extended.weapons.forEach((weapon) => {
+                                            if (weapon.referenceId === 3413860063) {
+                                                lowKills += weapon.values.uniqueWeaponKills.basic.value
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                            resolve({name, count: lowKills})
+                        })
+                        .catch((err) => {
+                            console.log('GET PGCR Error : ', name, err);
+                            resolve({name, count: lowKills})
+                        });
+                    }
+                }
+                else { resolve({name, count: lowKills}) }
+            })
+            .catch((err) => {
+                console.log('GET Crucible Sniper Activities Error : ', name);
+                // reject('GET Activities Error');
+                resolve({name, count: lowKills})
+            });
+        } else { resolve({name, count: lowKills}) }
+    })
+    .catch((err) => {
+        console.log('GET Profile Error : ', name);
+        // reject('Domain token error. No response.data.');
+        resolve({name, count: lowKills})
+    });
+})
