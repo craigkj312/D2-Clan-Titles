@@ -7,6 +7,7 @@ dotenv.config()
 const apiKey = process.env.REACT_APP_BUNGIE_API_KEY;
 const baseURL = 'https://www.bungie.net';
 const apiURL = baseURL+'/Platform';
+const statsURL = 'https://stats.bungie.net/Platform'
 
 export let getProfile = (type, id, components) => new Promise((resolve, reject) => {
 
@@ -211,7 +212,7 @@ export let getFromHash = (entityType, hash) => new Promise((resolve, reject) => 
 
 export let getPGCR = (activityId) => new Promise((resolve, reject) => {
 
-    fetch(`${apiURL}/Destiny2/Stats/PostGameCarnageReport/${activityId}/`, {
+    fetch(`${statsURL}/Destiny2/Stats/PostGameCarnageReport/${activityId}/`, {
         method: 'GET',
         headers: {
             "X-API-Key": apiKey
