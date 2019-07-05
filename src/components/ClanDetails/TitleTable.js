@@ -21,7 +21,7 @@ export default class TitleTable extends React.Component {
 
     componentWillReceiveProps(newProps) {
         this.setState({isLoading: true})
-        this.setRaidCount(newProps)
+        this.setCounts(newProps)
     }
 
     setCounts = (p) => {
