@@ -25,9 +25,9 @@ export default class TitleTable extends React.Component {
     }
 
     setCounts = (p) => {
-        const { memberList, atDate, reqFunction } = p
-        let memberMap = memberList.map((member) => {
-            return reqFunction(member.destinyUserInfo.displayName, member.destinyUserInfo.membershipId, atDate)
+        const { memberProfiles, atDate, reqFunction } = p
+        let memberMap = memberProfiles.map((member) => {
+            return reqFunction(member, atDate)
         })
         Promise.all(memberMap)
         .then(response => {
