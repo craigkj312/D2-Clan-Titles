@@ -225,31 +225,38 @@ export let getCoSCount = (name, membershipId, atDate) => new Promise((resolve, r
             results.then(activitiesResponse => {
                 let allActivites = activitiesResponse.reduce((acc, val) => acc.concat(val), []);
                 if (allActivites.length > 0) {
-                    let activityNames = allActivites.forEach((activity) => {
+                    let activityNames = []
+                     allActivites.forEach((activity) => {
                         if (activity) {
                             const activityDate = new Date(activity.period)
                             if (checkDates(activityDate, atDate) &&
                                 activity.values.completed.basic.value === 1 &&
                                 activity.values.completionReason.basic.displayValue !== 'Failed') {
-                                return getFromHash("DestinyActivityDefinition", activity.activityDetails.directorActivityHash)
+                                activityNames.push(getFromHash("DestinyActivityDefinition", activity.activityDetails.directorActivityHash))
                             }
                         }
                     })
-                    let names = Promise.all(activityNames)
-                    names.then(hashResponse => {
-                        let name = hashResponse.displayProperties.name
-                        console.log(name)
-                        if (name === "Crown of Sorrow: Normal") {
-                            raidCount = raidCount + 1
-                        }
-                        resolve({name, count: raidCount})
-                    })
-                    .catch((err) => {
-                        console.log('GET CoS Raid Activity Hash Error : ', name);
-                        resolve({name, count: raidCount})
-                    });
+                    if (activityNames.length === 0) { resolve({name, count: raidCount}) }
+                    else {
+                        let names = Promise.all(activityNames)
+                        names.then(hashResponse => {
+                            hashResponse.forEach((a) => {
+                                if (a) {
+                                    let name = a.displayProperties.name
+                                    if (name === "Crown of Sorrow: Normal") {
+                                        raidCount = raidCount + 1
+                                    }
+                                }
+                            })
+                            resolve({name, count: raidCount})
+                        })
+                        .catch((err) => {
+                            console.log('GET CoS Raid Activity Hash Error : ', name, err);
+                            resolve({name, count: raidCount})
+                        });
+                    }
                 }
-                resolve({name, count: raidCount})
+                else { resolve({name, count: raidCount}) }
             })  
             .catch((err) => {
                 console.log('GET CoS Raid Activities Error : ', name);

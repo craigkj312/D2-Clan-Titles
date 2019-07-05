@@ -64,7 +64,7 @@ class ClanDetails extends React.Component {
                 <div className='clan-details-section-header'> Seasonal Titles </div>
                 <div className='clan-details-content'>
                     <TitleTable title="Shadow" description="Menagerie Runs Completed." reqFunction={getMenagerieCount} memberList={memberList} atDate={activeDate} />
-                    {/* <TitleTable title="Sorrow Bearer" description="Crown of Sorrow Raids Completed." reqFunction={getCoSCount} memberList={memberList} atDate={activeDate} /> */}
+                    <TitleTable title="Sorrow Bearer" description="Crown of Sorrow Raids Completed." reqFunction={getCoSCount} memberList={memberList} atDate={activeDate} />
                 </div>
             </div>}
             </div>
