@@ -208,3 +208,28 @@ export let getFromHash = (entityType, hash) => new Promise((resolve, reject) => 
         reject('Fetch Error : getFromHash');
     });
 })
+
+export let getPGCR = (activityId) => new Promise((resolve, reject) => {
+
+    fetch(`${apiURL}/Destiny2/Stats/PostGameCarnageReport/${activityId}/`, {
+        method: 'GET',
+        headers: {
+            "X-API-Key": apiKey
+        }
+    })
+    .then((response) => {
+        if (response.status !== 200) {
+            console.log('Error Performing GET PGCR. Status Code: ' + response.status);
+            reject('Error Performing GET PGCR.');
+        } else {
+            response.json().then((data) => {
+                // console.log("PGCR: ", data);
+                resolve(data.Response);
+            });
+        }
+    })
+    .catch((err) => {
+        console.log('Fetch Error : getPGCR : ', err);
+        reject('Fetch Error : getPGCR');
+    });
+})

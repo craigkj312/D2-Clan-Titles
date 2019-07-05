@@ -1,5 +1,7 @@
-import { getProfile, getActivities, getFromHash } from './api';
+import { getProfile, getActivities, getFromHash, getPGCR } from './api';
 import { checkDates, createCharactersMap } from './utils';
+
+let knownWeapons = {}
 
 export let getRaidCount = (name, membershipId, atDate) => new Promise((resolve, reject) => {
 
@@ -267,5 +269,97 @@ export let getCoSCount = (name, membershipId, atDate) => new Promise((resolve, r
     .catch((err) => {
         console.log('GET Profile Error : ', name);
         resolve({name, count: raidCount})
+    });
+})
+
+export let getPvPSniperKills = (name, membershipId, atDate) => new Promise((resolve, reject) => {
+
+    let sniperKills = 0
+
+    getProfile(4, membershipId, [200])
+    .then(profileResponse => {
+        if (profileResponse) {
+            let characters = createCharactersMap(profileResponse, atDate)
+            let pvpMap = characters.map((character) => {
+                return getActivities(character, 200, 5, 0, atDate)
+            })
+            let results = Promise.all(pvpMap)
+            results.then(activitiesResponse => {
+                let allActivites = activitiesResponse.reduce((acc, val) => acc.concat(val), []);
+                if (allActivites.length > 0) {
+                    let PGCRPromises = []
+                    allActivites.forEach((activity) => {
+                        if (activity) {
+                            // console.log(activity);
+                            const activityDate = new Date(activity.period)
+                            if (checkDates(activityDate, atDate) && activity.values.efficiency.basic.value !== 0) {
+                                PGCRPromises.push(getPGCR(activity.activityDetails.instanceId))
+                            }
+                        }
+                    })
+                    if (PGCRPromises.length === 0) { resolve({name, count: sniperKills}) }
+                    else {
+                        let PGCRs = Promise.all(PGCRPromises)
+                        PGCRs.then(PGCRResponse => {
+                            let weaponKills = {}
+                            PGCRResponse.forEach((pgcr) => {
+                                if (pgcr) {
+                                    let player = pgcr.entries.filter((entry) => { return entry.player.destinyUserInfo.membershipId === membershipId })[0]
+                                    // console.log(player)
+                                    if (player.extended.weapons) {
+                                        player.extended.weapons.forEach((weapon) => {
+                                            if (knownWeapons[weapon.referenceId] && knownWeapons[weapon.referenceId] === "Sniper Rifle") {
+                                                sniperKills += weapon.values.uniqueWeaponKills.basic.value
+                                            } else if (knownWeapons[weapon.referenceId] && knownWeapons[weapon.referenceId] !== "Sniper Rifle") {
+                                                // ignore weapon
+                                            } else {
+                                                if (weaponKills[weapon.referenceId]) { 
+                                                    weaponKills[weapon.referenceId] += weapon.values.uniqueWeaponKills.basic.value
+                                                } else {
+                                                    weaponKills[weapon.referenceId] = weapon.values.uniqueWeaponKills.basic.value
+                                                }
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                            let weaponHashPromises = []
+                            Object.keys(weaponKills).forEach((key) => { weaponHashPromises.push(getFromHash("DestinyInventoryItemDefinition", key)) })
+                            if (weaponHashPromises.length === 0) { resolve({name, count: sniperKills}) }
+                            else {
+                                let weaponData = Promise.all(weaponHashPromises)
+                                weaponData.then((weaponDataResponse) => {
+                                    weaponDataResponse.forEach((weapon) => {
+                                        // console.log(weapon)
+                                        knownWeapons[weapon.hash] = weapon.itemTypeDisplayName
+                                        if (weapon.itemTypeDisplayName === "Sniper Rifle") { sniperKills += weaponKills[weapon.hash] }
+                                    })
+                                    resolve({name, count: sniperKills})
+                                })
+                                .catch((err) => {
+                                    console.log('GET Weapon Data Error : ', name, err);
+                                    resolve({name, count: sniperKills})
+                                });
+                            }
+                        })
+                        .catch((err) => {
+                            console.log('GET PGCR Error : ', name, err);
+                            resolve({name, count: sniperKills})
+                        });
+                    }
+                }
+                else { resolve({name, count: sniperKills}) }
+            })
+            .catch((err) => {
+                console.log('GET Crucible Sniper Activities Error : ', name);
+                // reject('GET Activities Error');
+                resolve({name, count: sniperKills})
+            });
+        } else { resolve({name, count: sniperKills}) }
+    })
+    .catch((err) => {
+        console.log('GET Profile Error : ', name);
+        // reject('Domain token error. No response.data.');
+        resolve({name, count: sniperKills})
     });
 })
