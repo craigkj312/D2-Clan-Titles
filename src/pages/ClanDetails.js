@@ -77,8 +77,8 @@ class ClanDetails extends React.Component {
                 <div className='clan-details-content'>
                     <TitleTable title="Shadow" description="Menagerie Runs Completed." reqFunction={getMenagerieCount} memberProfiles={memberProfiles} atDate={activeDate} />
                     <TitleTable title="Sorrow Bearer" description="Crown of Sorrow Raids Completed." reqFunction={getCoSCount} memberProfiles={memberProfiles} atDate={activeDate} />
-                    <TitleTable title="Revoker" description="Crucible Sniper Kills." reqFunction={getPvPSniperKills} memberProfiles={memberProfiles} atDate={activeDate} />
-                    <TitleTable title="Dances With Wolves" description="Crucible Lord of Wolves Kills." reqFunction={getLoWKills} memberProfiles={memberProfiles} atDate={activeDate} />
+                    <TitleTable title="Revoker" description="(Experimental) Crucible Sniper Kills." reqFunction={getPvPSniperKills} memberProfiles={memberProfiles} atDate={activeDate} />
+                    <TitleTable title="Dances With Wolves" description="(Experimental) Crucible Lord of Wolves Kills." reqFunction={getLoWKills} memberProfiles={memberProfiles} atDate={activeDate} />
                 </div>
             </div>}
             </div>
