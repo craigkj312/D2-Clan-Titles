@@ -38,8 +38,10 @@ class ClanDetails extends React.Component {
 
         getClanMembers(groupId)
         .then(response => {
+            console.log(response.results)
             let memberProfileRequests = response.results.map((member) => {
-                return getProfile(4, member.destinyUserInfo.membershipId, [100, 200])
+                let type = member.destinyUserInfo.crossSaveOverride === 0 ? 4 : member.destinyUserInfo.crossSaveOverride 
+                return getProfile(type, member.destinyUserInfo.membershipId, [100, 200])
             })
             Promise.all(memberProfileRequests)
             .then(response => {
@@ -70,7 +72,7 @@ class ClanDetails extends React.Component {
                     <TitleTable title="Dredgen" description="Wins in Gambit and Gambit Prime." reqFunction={getGambitWins} memberProfiles={memberProfiles} atDate={activeDate} />
                     <TitleTable title="Vanguard" description="Strikes and Nightfalls Completed." reqFunction={getStrikeCount} memberProfiles={memberProfiles} atDate={activeDate} />
                 </div>
-                <div className='clan-details-section-header'>
+                {/* <div className='clan-details-section-header'>
                     <div>Seasonal Titles</div>
                     <div className='clan-details-section-subheader'>Monthly titles only available during the Season of Opulence</div>
                 </div>
@@ -79,7 +81,7 @@ class ClanDetails extends React.Component {
                     <TitleTable title="Sorrow Bearer" description="Crown of Sorrow Raids Completed." reqFunction={getCoSCount} memberProfiles={memberProfiles} atDate={activeDate} />
                     <TitleTable title="Revoker" description="(Experimental) Crucible Sniper Kills." reqFunction={getPvPSniperKills} memberProfiles={memberProfiles} atDate={activeDate} />
                     <TitleTable title="Dances With Wolves" description="(Experimental) Crucible Lord of Wolves Kills." reqFunction={getLoWKills} memberProfiles={memberProfiles} atDate={activeDate} />
-                </div>
+                </div> */}
             </div>}
             </div>
         );

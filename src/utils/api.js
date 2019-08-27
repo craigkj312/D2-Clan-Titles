@@ -25,7 +25,7 @@ export let getProfile = (type, id, components) => new Promise((resolve, reject) 
             reject('Error Performing GET Profile.');
         } else {
             response.json().then((data) => {
-                // console.log(data);
+                console.log(data);
                 resolve(data.Response);
             });
         }
