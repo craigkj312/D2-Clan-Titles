@@ -40,7 +40,7 @@ class ClanDetails extends React.Component {
         .then(response => {
             console.log(response.results)
             let memberProfileRequests = response.results.map((member) => {
-                let type = member.destinyUserInfo.crossSaveOverride === 0 ? 4 : member.destinyUserInfo.crossSaveOverride 
+                let type = member.destinyUserInfo.crossSaveOverride === 0 ? 3 : member.destinyUserInfo.crossSaveOverride 
                 return getProfile(type, member.destinyUserInfo.membershipId, [100, 200])
             })
             Promise.all(memberProfileRequests)
