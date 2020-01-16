@@ -158,7 +158,6 @@ export let getIBWins = (member, atDate) => new Promise((resolve, reject) => {
                         activity.values.completed.basic.value === 1 &&
                         activity.values.standing.basic.value === 0 &&
                         activity.values.efficiency.basic.value !== 0) {
-                            console.log(activityDate, atDate)
                             ibWins = ibWins + 1
                     }
                 }
