@@ -10,6 +10,12 @@ export let isNewerOrEqualDate =(date1, date2) => {
     return date1.getYear() > date2.getYear() || (date1.getYear() === date2.getYear() && date1.getMonth() >= date2.getMonth())
 }
 
+export let isNewerOrEqualDateWithDay =(date1, date2) => {
+    return date1.getYear() > date2.getYear() || 
+            (date1.getYear() === date2.getYear() && date1.getMonth() > date2.getMonth()) ||
+            (date1.getYear() === date2.getYear() && date1.getMonth() === date2.getMonth() && date1.getDate() >= date2.getDate())
+}
+
 export let getDate = (m, y) => {
     let monthNames = [
         "January", "February", "March",

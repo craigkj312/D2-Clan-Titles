@@ -1,5 +1,5 @@
 import { getActivities, getFromHash, getPGCR } from './api';
-import { checkDates, createCharactersMap } from './utils';
+import { checkDates, createCharactersMap, isNewerOrEqualDateWithDay } from './utils';
 
 let knownWeapons = {}
 let knownPGCRs = {}
@@ -154,10 +154,11 @@ export let getIBWins = (member, atDate) => new Promise((resolve, reject) => {
             allActivites.forEach((activity) => {
                 if (activity) {
                     const activityDate = new Date(activity.period)
-                    if (checkDates(activityDate, atDate) &&
+                    if (isNewerOrEqualDateWithDay(activityDate, atDate) &&
                         activity.values.completed.basic.value === 1 &&
                         activity.values.standing.basic.value === 0 &&
                         activity.values.efficiency.basic.value !== 0) {
+                            console.log(activityDate, atDate)
                             ibWins = ibWins + 1
                     }
                 }
