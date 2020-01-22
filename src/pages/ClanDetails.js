@@ -68,7 +68,7 @@ class ClanDetails extends React.Component {
                     <TitleTable title="Gladiator" description="Wins in the Crucible." reqFunction={getCrucibleWins} memberProfiles={memberProfiles} atDate={activeDate} />
                     <TitleTable title="Dredgen" description="Wins in Gambit and Gambit Prime." reqFunction={getGambitWins} memberProfiles={memberProfiles} atDate={activeDate} />
                     <TitleTable title="Vanguard" description="Strikes and Nightfalls Completed." reqFunction={getStrikeCount} memberProfiles={memberProfiles} atDate={activeDate} />
-                    <TitleTable title="Iron Lord" description="Wins in Iron Banner." reqFunction={getIBWins} memberProfiles={memberProfiles} atDate={new Date("12/24/2019")} />
+                    <TitleTable title="Iron Lord" description="Wins in Iron Banner." reqFunction={getIBWins} memberProfiles={memberProfiles} atDate={new Date("1/21/2020")} />
                 </div>
             </div>}
             </div>
