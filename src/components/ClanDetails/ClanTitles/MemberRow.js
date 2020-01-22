@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../../style/ClanDetails.css';
+import '../../../style/ClanDetails.css';
 
 export default class MemberRow extends React.Component {
 

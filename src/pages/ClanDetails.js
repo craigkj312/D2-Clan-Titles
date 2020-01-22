@@ -1,19 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-// import { createCharactersMap } from '../utils/utils';
 import { getClanMembers, getProfile } from '../utils/api';
-import { 
-    getRaidCount, 
-    getCrucibleWins, 
-    getGambitWins, 
-    getStrikeCount, 
-    getIBWins } from '../utils/titles';
 
 import '../style/ClanDetails.css';
 
+import ClanTitles from './ClanTitles';
+import ClanStats from './ClanStats';
+
 import ClanDetailsHeader from '../components/ClanDetails/ClanDetailsHeader';
-import TitleTable from '../components/ClanDetails/TitleTable';
 
 class ClanDetails extends React.Component {
 
@@ -35,14 +30,15 @@ class ClanDetails extends React.Component {
 
         getClanMembers(groupId)
         .then(response => {
-            console.log(response.results)
+            // console.log(response.results)
             let memberProfileRequests = response.results.map((member) => {
-                let type = member.destinyUserInfo.crossSaveOverride === 0 ? 3 : member.destinyUserInfo.crossSaveOverride 
-                return getProfile(type, member.destinyUserInfo.membershipId, [100, 200])
+                let type = member.destinyUserInfo.membershipType
+                let id = member.destinyUserInfo.membershipId
+                return getProfile(type, id, [100, 200])
             })
             Promise.all(memberProfileRequests)
             .then(response => {
-                // console.log(response)
+                console.log(response)
                 this.setState({isLoading: false, memberProfiles: response})
             })
         })
@@ -56,20 +52,15 @@ class ClanDetails extends React.Component {
     render() {
 
         const { isLoading, activeDate, memberProfiles } = this.state
-        const { groupId } = this.props.match.params;
+        const { groupId, page } = this.props.match.params;
 
         const home = (
             <div className='clan-details'>
             {isLoading ? <div className='loading'></div> :
             <div className='clan-details-scroll'>
-                <ClanDetailsHeader groupId={groupId} activeDate={activeDate} changeDate={this.changeDate} />
-                <div className='clan-details-content'>
-                    <TitleTable title="Raider" description="Raids Completed." reqFunction={getRaidCount} memberProfiles={memberProfiles} atDate={activeDate} />
-                    <TitleTable title="Gladiator" description="Wins in the Crucible." reqFunction={getCrucibleWins} memberProfiles={memberProfiles} atDate={activeDate} />
-                    <TitleTable title="Dredgen" description="Wins in Gambit and Gambit Prime." reqFunction={getGambitWins} memberProfiles={memberProfiles} atDate={activeDate} />
-                    <TitleTable title="Vanguard" description="Strikes and Nightfalls Completed." reqFunction={getStrikeCount} memberProfiles={memberProfiles} atDate={activeDate} />
-                    <TitleTable title="Iron Lord" description="Wins in Iron Banner." reqFunction={getIBWins} memberProfiles={memberProfiles} atDate={new Date("1/21/2020")} />
-                </div>
+                <ClanDetailsHeader groupId={groupId} activeDate={activeDate} changeDate={this.changeDate} activePage={page} />
+                { page === 'titles' ? <ClanTitles isLoading={isLoading} activeDate={activeDate} memberProfiles={memberProfiles} /> : null }
+                { page === 'stats' ? <ClanStats isLoading={isLoading} activeDate={activeDate} memberProfiles={memberProfiles} /> : null }
             </div>}
             </div>
         );

@@ -25,7 +25,7 @@ export let getProfile = (type, id, components) => new Promise((resolve, reject) 
             reject('Error Performing GET Profile.');
         } else {
             response.json().then((data) => {
-                console.log(data);
+                // console.log(data);
                 resolve(data.Response);
             });
         }
@@ -33,6 +33,34 @@ export let getProfile = (type, id, components) => new Promise((resolve, reject) 
     .catch((err) => {
         console.log('Fetch Error : getProfile : ', id, ' : ', err);
         reject('Fetch Error : getProfile');
+    });
+})
+
+export let getHistoricalStatsForAccount = (player, destinyMembershipId, membershipType, groups) => new Promise((resolve, reject) => {
+
+    let queryParams = queryString.stringify({groups});
+
+    fetch(` ${apiURL}/Destiny2/${membershipType}/Account/${destinyMembershipId}/Stats/?${queryParams}`, {
+        method: 'GET',
+        headers: {
+            "X-API-Key": apiKey
+        }
+    })
+    .then((response) => {
+        if (response.status !== 200) {
+            // console.log('Error Performing GET Activities. Status Code: ' + response.status);
+            // reject('Error Performing GET Activities.');
+            // If a profile is private it will 500, so just resolve for now.
+            resolve()
+        } else {
+            response.json().then((data) => {
+                resolve({playerName: player, stats: data.Response})
+            });
+        }
+    })
+    .catch((err) => {
+        console.log('Fetch Error : getHistoricalStatsForAccount : ', err);
+        reject('Fetch Error : getHistoricalStatsForAccount');
     });
 })
 
@@ -157,6 +185,32 @@ export let getClanMembers = (groupId) => new Promise((resolve, reject) => {
     .catch((err) => {
         console.log('Fetch Error : getClanMembers : ', err);
         reject('Fetch Error : getClanMembers');
+    });
+})
+
+export let getClanLeaderboards = (groupId, maxtop, modes, statid) => new Promise((resolve, reject) => {
+
+    let queryParams = queryString.stringify({maxtop, modes, statid});
+
+    fetch(` ${apiURL}/Destiny2/Stats/Leaderboards/Clans/${groupId}/?${queryParams}`, {
+        method: 'GET',
+        headers: {
+            "X-API-Key": apiKey
+        }
+    })
+    .then((response) => {
+        if (response.status !== 200) {
+            console.log('Error Performing GET Clan Leaderboards. Status Code: ' + response.status);
+            reject('Error Performing GET Clan Leaderboards.');
+        } else {
+            response.json().then((data) => {
+                resolve(data.Response)
+            });
+        }
+    })
+    .catch((err) => {
+        console.log('Fetch Error : getClanLeaderboards : ', err);
+        reject('Fetch Error : getClanLeaderboards');
     });
 })
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../../style/ClanDetails.css';
+import '../../../style/ClanDetails.css';
 
 import MemberRow from './MemberRow';
 

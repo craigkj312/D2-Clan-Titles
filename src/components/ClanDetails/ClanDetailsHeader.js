@@ -1,11 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-dropdown';
 import { getClan } from '../../utils/api';
 import { getDate, formatDate } from '../../utils/utils';
 
 import '../../style/ClanDetailsHeader.css';
 
-export default class ClanDetailsHeader extends React.Component {
+class ClanDetailsHeader extends React.Component {
 
     constructor(props) {
         super(props)
@@ -42,8 +44,12 @@ export default class ClanDetailsHeader extends React.Component {
         return months
     }
 
+    navigateToPage(page) {
+        this.props.history.push(`/c/${this.props.groupId}/${page}`)
+    }
+
     render() {
-        const { activeDate, changeDate } = this.props
+        const { activeDate, changeDate, activePage } = this.props
         const { clanDetail } = this.state
 
         const dateString = formatDate(activeDate);
@@ -54,7 +60,11 @@ export default class ClanDetailsHeader extends React.Component {
                 <div className='clan-name-container'>
                     <div className='clan-name'>{clanDetail.name}</div>
                     <div className='clan-tag'>[{clanDetail.clanInfo.clanCallsign}]</div>
-                    <Dropdown className='month-dropdown' value={dateString} options={months} onChange={val => changeDate(val.value)} />
+                    {activePage === 'titles' ? <Dropdown className='month-dropdown' value={dateString} options={months} onChange={val => changeDate(val.value)} /> : null }
+                </div>
+                <div className='page-nav-container'>
+                        <div className={activePage === 'titles' ? 'page-switcher page-switcher-active' : 'page-switcher'} onClick={()=>this.navigateToPage('titles')}>Titles</div>
+                        <div className={activePage === 'stats' ? 'page-switcher page-switcher-active' : 'page-switcher'}  onClick={()=>this.navigateToPage('stats')}>Stats</div>
                 </div>
             </div>
         : null );
@@ -62,3 +72,16 @@ export default class ClanDetailsHeader extends React.Component {
         return (header);
     }
 }
+
+ClanDetailsHeader.propTypes = {
+    children: PropTypes.node,
+    router: PropTypes.object,
+    location: PropTypes.object,
+    history: PropTypes.any
+}
+
+ClanDetailsHeader.contextTypes = {
+    router: PropTypes.object
+}
+
+export default withRouter(ClanDetailsHeader);

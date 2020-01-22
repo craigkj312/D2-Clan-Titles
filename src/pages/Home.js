@@ -25,7 +25,7 @@ class Home extends React.Component {
         searchClans(clanName)
         .then(response => {
             if (response && response.detail && response.detail.groupId) {
-                this.props.history.push(`/c/${response.detail.groupId}`)
+                this.props.history.push(`/c/${response.detail.groupId}/titles`)
             }
         })
     }
