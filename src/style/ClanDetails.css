@@ -7,7 +7,7 @@
 }
 
 .clan-details-scroll {
-    height: 100vh;
+    height: calc(100vh - 127px);
     overflow-y: scroll;
     padding-bottom: 36px;
 }

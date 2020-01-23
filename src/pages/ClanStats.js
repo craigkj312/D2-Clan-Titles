@@ -26,7 +26,7 @@ class ClanStats extends React.Component {
             {label:'PvP', value:'allPvP'}, 
             // {label:'PvE', value:'allPvE'}
         ]
-        this.statOptions = [
+        this.statPvPOptions = [
             {label:'Total Matches', value:'activitiesEntered'},
             {label:'Matches Won', value:'activitiesWon'},
             {label:'Time Played', value:'secondsPlayed'},
@@ -78,12 +78,21 @@ class ClanStats extends React.Component {
         ]
 
         this.sortData = this.sortData.bind(this)
+
     }
 
     componentDidMount() {
-
         const { memberProfiles } = this.props;
+        this.requestStats(memberProfiles)
+    }
 
+    componentWillReceiveProps(props) {
+        const { memberProfiles } = props;
+        this.setState({tableLoading: true})
+        this.requestStats(memberProfiles)
+    }
+
+    requestStats(memberProfiles) {
         let memberStatsRequests = memberProfiles.map((member) => {
             let type = member.profile.data.userInfo.membershipType
             let id = member.profile.data.userInfo.membershipId
@@ -124,20 +133,23 @@ class ClanStats extends React.Component {
         const { isLoading } = this.props
 
         const stats = (
-            isLoading || tableLoading ? 
-                <div className='loading'></div> 
-            :
-                <div className='clan-stats-content'>
-                    <div className='filter-bar'>
-                        <Dropdown key='mode' className='stat-dropdown' value={activeMode} options={this.modeOptions} onChange={m => this.sortData(m, activeStat)} />
-                        <Dropdown key='stat' className='stat-dropdown' value={activeStat} options={this.statOptions} onChange={s => this.sortData(activeMode, s)} />
+            <div className='clan-stats'>
+                { isLoading || tableLoading ? 
+                    <div className='loading'></div> 
+                :
+                    <div className='clan-stats-content'>
+                        <div className='filter-bar'>
+                            <Dropdown key='mode' className='stat-dropdown' value={activeMode} options={this.modeOptions} onChange={m => this.sortData(m, activeStat)} />
+                            <Dropdown key='stat' className='stat-dropdown' value={activeStat} options={this.statPvPOptions} onChange={s => this.sortData(activeMode, s)} />
+                        </div>
+                        <div className='stats-table-content'>
+                            {tableStats.map((member, i) => {
+                                return <MemberRow key={i} rank={i+1} name={member.name} count={member.displayValue} />
+                            })}
+                        </div>
                     </div>
-                    <div className='stats-table-content'>
-                        {tableStats.map((member, i) => {
-                            return <MemberRow key={i} rank={i+1} name={member.name} count={member.displayValue} />
-                        })}
-                    </div>
-                </div>
+                }
+            </div>
         );
 
         return (stats);

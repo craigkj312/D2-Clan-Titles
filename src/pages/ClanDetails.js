@@ -56,12 +56,9 @@ class ClanDetails extends React.Component {
 
         const home = (
             <div className='clan-details'>
-            {isLoading ? <div className='loading'></div> :
-            <div className='clan-details-scroll'>
                 <ClanDetailsHeader groupId={groupId} activeDate={activeDate} changeDate={this.changeDate} activePage={page} />
                 { page === 'titles' ? <ClanTitles isLoading={isLoading} activeDate={activeDate} memberProfiles={memberProfiles} /> : null }
                 { page === 'stats' ? <ClanStats isLoading={isLoading} activeDate={activeDate} memberProfiles={memberProfiles} /> : null }
-            </div>}
             </div>
         );
 

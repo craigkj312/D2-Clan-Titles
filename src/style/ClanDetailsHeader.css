@@ -1,5 +1,6 @@
 .clan-details-header {
     position: relative;
+    top: 0px;
     width: calc(100% - 72px);
     padding: 18px 36px 16px 36px;
     color: var(--white);
