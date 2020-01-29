@@ -1,6 +1,6 @@
 import React from 'react';
 import { HashRouter } from 'react-router-dom';
-import { Route } from 'react-router';
+import { Router, Route } from 'react-router';
 
 import './style/App.css';
 
@@ -11,11 +11,11 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <HashRouter>
+        <Router>
             <Route path="/" exact component={Home} />
             <Route path="/c/:groupId/:page" component={ClanDetails} />
             {/*<Footer />*/}
-        </HashRouter>
+        </Router>
       </div>
     );
   }
